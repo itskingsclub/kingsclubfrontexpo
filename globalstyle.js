@@ -1,11 +1,13 @@
 // globalStyles.js
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Platform.OS === 'ios' ? '#fff' : '#fff',
+    paddingTop: 100
   },
+ 
     fonts: {
     inter: 'Inter-Black',
     fontSize30: 30,
@@ -90,10 +92,12 @@ const globalStyles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#fff',
   },
+  containerMain: {
+    backgroundColor: "000",
+  },
   scrollContainer: {
-    // flexGrow: 1,
     paddingHorizontal: 15,
-    paddingTop: 65,
+    paddingTop: 0,
     paddingBottom: 65,
   },
   mainContainer: {
@@ -109,17 +113,29 @@ const globalStyles = StyleSheet.create({
   topHeader :{
     position: 'absolute',
     zIndex: 10,
-    top: 30,
+    top: 40,
     left: 0,
     width: '100%',
-    height: 60,
-    paddingVertical: 6,
+    height: 50,
+    paddingVertical: 3,
     paddingHorizontal: 12,
     textAlign: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  topMobile: {
+    position: 'absolute',
+    zIndex: 9,
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: 40,
+    paddingVertical: 3,
+    paddingHorizontal: 12,
+    textAlign: 'center',
+    backgroundColor: Platform.OS === 'ios' ? '#fff' : '#fff',
   },
   leftHeader: {
     flexDirection: 'row',

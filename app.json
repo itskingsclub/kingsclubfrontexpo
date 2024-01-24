@@ -6,19 +6,23 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "jsEngine": "hermes",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
-      "**/*"
+      "assets/fonts/Inter-Medium.ttf",
+      "assets/fonts/Inter-Black.ttf"
     ],
     "ios": {
+      "jsEngine": "jsc",
       "supportsTablet": true,
       "bundleIdentifier": "com.mukeshjat4908.kingsclub"
     },
     "android": {
+      "jsEngine": "jsc",
       "package": "com.mukeshjat4908.kingsclub",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -33,6 +37,15 @@
         "projectId": "fb46ae16-e831-46e7-bd1c-f12c1cc7db9c"
       }
     },
-    "owner": "mukeshjat4908"
+    "owner": "mukeshjat4908",
+    "plugins": [
+      "expo-font"
+    ],
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/fb46ae16-e831-46e7-bd1c-f12c1cc7db9c"
+    }
   }
 }

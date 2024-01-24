@@ -43,7 +43,7 @@ const BottomNavigator = () => {
       shadowOpacity: 0.25,
       shadowRadius: 7,
       elevation: 5,
-      borderWidth: 1,
+      borderWidth: Platform.OS === 'ios' ? 0 : 1,
       borderStyle: 'solid',
       borderColor: '#000',
       marginBottom: Platform.OS === 'ios' ? 25 : 0,

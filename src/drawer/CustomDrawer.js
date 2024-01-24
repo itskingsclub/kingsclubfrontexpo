@@ -28,7 +28,7 @@ const CustomDrawer = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={{width:'100%'}}>
+    <SafeAreaView style={{ width:'100%',flex: 1, backgroundColor: theme.colors.primaryBlue }}>
       <View style={[globalStyles.drawerTop, globalStyles.displaycolumn, {backgroundColor:theme.colors.primaryBlue}]}>
       <Icon name="user-large" color="#fff" size={60} style={{marginBottom:10}}/>
         <Text style={{color:theme.colors.whiteColor}}>mukesh jat</Text>
