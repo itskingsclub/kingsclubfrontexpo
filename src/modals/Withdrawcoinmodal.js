@@ -3,10 +3,10 @@ import React, { useContext, useState } from 'react'
 import globalStyles from '../../globalstyle';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Button, Text, Modal, Portal, TextInput, useTheme, RadioButton, ActivityIndicator } from 'react-native-paper';
-import { deposit, getuser, updateUser } from '../service/apicalls';
+import { getuser, withdrawal } from '../service/apicalls';
 import { UserContext } from '../userDetail/Userdetail';
 
-const Addcoinmodal = ({ visible, hideModal }) => {
+const Withdrawcoinmodal = ({ visible, hideModal }) => {
   const theme = useTheme();
   const {userDetail, setUserDetail} = useContext(UserContext);
   const [coin, setCoin] = useState('100');
@@ -30,11 +30,11 @@ const Addcoinmodal = ({ visible, hideModal }) => {
       user_id : userDetail.id,
       amount: Number(coin)
     }
-    deposit(data).then((res)=>{
+    withdrawal(data).then((res)=>{
       setLoading(false)
       hideModal();  
-      ToastAndroid.show("Coin Addes Successfully", 3000)
       console.log(res)
+      ToastAndroid.show("Coin Remove Successfully", 3000)
         getuser(userDetail.id).then((res)=>{
             setUserDetail(res.data) 
         })
@@ -52,7 +52,7 @@ const Addcoinmodal = ({ visible, hideModal }) => {
             <MaterialIcons name="close" color="#000" size={30}  style={globalStyles.closeModal}
         onPress={hideModal}/>
         <View style={styles.coinModal}>
-        <Text variant="titleLarge">Add Coin</Text>
+        <Text variant="titleLarge">Withdraw Coin</Text>
         <TextInput
           keyboardType="numeric"
           mode="flat"
@@ -126,7 +126,7 @@ const Addcoinmodal = ({ visible, hideModal }) => {
   )
 }
 
-export default Addcoinmodal;
+export default Withdrawcoinmodal;
 
 const styles = StyleSheet.create({
   coinModal:{

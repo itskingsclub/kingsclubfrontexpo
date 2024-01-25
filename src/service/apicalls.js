@@ -9,7 +9,7 @@ export async function registerApi(payload) {
       );
       return response.data;
     } catch (error) {
-      return console.log(error);
+      return error;
     }
 }
 

@@ -37,6 +37,11 @@ local.properties
 # node.js
 #
 node_modules/
+./node_modules
+%ProgramData%
+.vscode
+dist
+patches
 npm-debug.log
 yarn-error.log
 

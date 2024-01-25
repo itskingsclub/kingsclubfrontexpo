@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, Platform } from 'react-native';
 import { IconButton, Text, Button, useTheme, TextInput, ActivityIndicator} from 'react-native-paper';
 import globalStyles from '../../../globalstyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -88,7 +88,7 @@ const Login = ({navigation}) => {
     {loading ? (
       <ActivityIndicator animating={true} size='large' color={theme.colors.blue} style={globalStyles.loading} />
     ) : ''}
-    <View style={styles.container}>
+    <View style={[styles.container, {paddingTop:20}, {paddingBottom: Platform.OS === "ios" ? 10: 0}]}>
       <ScrollView contentContainerStyle={styles.contentContainer}>
       <View style={styles.topContent}>
         <View style={styles.pageHeading}>
@@ -109,7 +109,7 @@ const Login = ({navigation}) => {
         <View style={styles.formBox}>
       <TextInput
       keyboardType="numeric"
-      mode="outlined"
+      mode="flat"
       label="Mobile Number"
       value={user.mobileNumber}
       onChangeText={(text) => handleInputChange('mobileNumber', text)}
@@ -209,6 +209,6 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 8,
     height: 56,
-    backgroundColor: globalStyles.backgroundColor.backgroundColor,
+    backgroundColor: "#e5e5e88a",
   },
 });

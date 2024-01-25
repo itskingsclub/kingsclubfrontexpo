@@ -39,7 +39,8 @@
     },
     "owner": "mukeshjat4908",
     "plugins": [
-      "expo-font"
+      "expo-font",
+      "expo-updates"
     ],
     "runtimeVersion": {
       "policy": "appVersion"

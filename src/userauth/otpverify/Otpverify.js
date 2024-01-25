@@ -1,14 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, View, ScrollView, TextInput, Clipboard, Platform } from 'react-native';
 import { IconButton, Text, Button, useTheme,ActivityIndicator } from 'react-native-paper';
 import globalStyles from '../../../globalstyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Icon from 'react-native-vector-icons/FontAwesome'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import OTPInputView from '@twotalltotems/react-native-otp-input'
-import RNRestart from 'react-native-restart';
+import CodeInput from 'react-native-confirmation-code-input';
 import { loginApi, verifyotpApi } from '../../service/apicalls';
+import * as Updates from 'expo-updates';
 
 const Otpverify = ({navigation}) => {
   const theme = useTheme();
@@ -19,7 +17,7 @@ const Otpverify = ({navigation}) => {
   const [seconds, setSeconds] = useState(3);
   const [disabled, setDisabled] = useState(false)
   const [loading, setLoading] = useState(false)
-
+ console.log(otpInput)
   useEffect(() => {
     const fetchNumber = async () => {
       try {
@@ -33,8 +31,6 @@ const Otpverify = ({navigation}) => {
     };
     fetchNumber();
   }, []);
-  console.log(mobileNumber)
-
   const otpSubmit = async  () => {
     setLoading(true)
     data= {
@@ -50,7 +46,7 @@ const Otpverify = ({navigation}) => {
      const jsonValue = JSON.stringify(res.data);
       AsyncStorage.setItem('userDetail', jsonValue);
       setError('')
-      RNRestart.Restart();
+      Updates.reloadAsync()
       navigation.navigate('parent')
       } else{
         console.log("false", res.message)
@@ -105,7 +101,7 @@ const Otpverify = ({navigation}) => {
      {loading ? (
       <ActivityIndicator animating={true} size='large' color={theme.colors.blue} style={globalStyles.loading} />
     ) : ''}
-    <View style={styles.container}>
+    <View style={[styles.container, {paddingTop:20}, {paddingBottom: Platform.OS === "ios" ? 10: 0}]}>
       <ScrollView contentContainerStyle={styles.contentContainer}>
       <View style={styles.topContent}>
         <View style={styles.pageHeading}>
@@ -126,16 +122,15 @@ const Otpverify = ({navigation}) => {
         <View style={styles.formBox}>
           <Text variant='bodyLarge' style={{textAlign: 'center'}}>We have sent a 4 digit OTP on {'\n'} +91 {(mobileNumber).slice(0,4)}xxxxx{(mobileNumber).slice(9)}</Text>
         <View style={styles.otpContainer}>
-              <OTPInputView
-          style={{width: '80%', height: 50}}
-          pinCount={4}
-          onCodeChanged = {(code) => setOtpInput(code)}
-          autoFocusOnLoad
-          codeInputFieldStyle={styles.underlineStyleBase}
-          codeInputHighlightStyle={styles.underlineStyleHighLighted}
-          // onCodeFilled = {(code => {
-          //     console.log(`Code is ${code}, you are good to go!`)
-          // })}
+        <CodeInput
+        codeLength={4}
+        space={12}
+        keyboardType="numeric"
+        activeColor='#7E49FF'
+      inactiveColor='#00000091'
+      inputPosition='center'
+      size={50}
+        onFulfill={(code)=>setOtpInput(code)}
       />
            </View>
           <Text variant='bodyLarge' style={{textAlign: 'center', color:'red', marginBottom: 10}}>{error}</Text>
@@ -253,5 +248,18 @@ const styles = StyleSheet.create({
 
   underlineStyleHighLighted: {
     borderColor: "#7E49FF",
+  },
+  cell: {
+    width: 50,
+    height: 50,
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: 'gray',
+  },
+  cellText: {
+    fontSize: 24,
+    textAlign: 'center',
   },
 });

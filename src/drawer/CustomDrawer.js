@@ -5,10 +5,14 @@ import globalStyles from '../../globalstyle';
 import { useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import FontAwesome from 'react-native-vector-icons/MaterialIcons';
+import { UserContext } from '../userDetail/Userdetail';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Updates from 'expo-updates';
 
 const CustomDrawer = ({navigation}) => {
   const theme = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
+  const {userDetail} = useContext(UserContext);
 
   // Close the drawer when the component mounts
   useEffect(() => {
@@ -26,15 +30,23 @@ const CustomDrawer = ({navigation}) => {
     navigation.navigate(screenName);
     navigation.closeDrawer();
   };
+  const clearAsyncStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+     await Updates.reloadAsync()
+    } catch (error) {
+      console.error('Error clearing AsyncStorage:', error);
+    }
+  };
 
   return (
-    <SafeAreaView style={{ width:'100%',flex: 1, backgroundColor: theme.colors.primaryBlue }}>
+    <SafeAreaView style={{ width:'100%',flex: 1, backgroundColor: "fff" }}>
       <View style={[globalStyles.drawerTop, globalStyles.displaycolumn, {backgroundColor:theme.colors.primaryBlue}]}>
       <Icon name="user-large" color="#fff" size={60} style={{marginBottom:10}}/>
-        <Text style={{color:theme.colors.whiteColor}}>mukesh jat</Text>
-        <Text style={{color:theme.colors.whiteColor}}>1234567890</Text>
+      <Text style={{color:theme.colors.whiteColor}}>{userDetail.name}</Text>
+        <Text style={{color:theme.colors.whiteColor}}>{userDetail.mobile}</Text>
       </View>
-      <View style={{marginVertical:10}}>
+      <View style={{marginVertical:10, backgroundColor: '#fff'}}>
       <Drawer.Item
      style={{ backgroundColor: '#fff' }}
      icon="home"
@@ -73,7 +85,7 @@ const CustomDrawer = ({navigation}) => {
      style={{ backgroundColor: '#fff' }}
      icon="exit-to-app"
      label="Log Out"
-    //  onPress={()=>clearAsyncStorage()}
+     onPress={()=>clearAsyncStorage()}
      />
       <Drawer.Item
      style={{ backgroundColor: '#fff' }}
@@ -82,7 +94,7 @@ const CustomDrawer = ({navigation}) => {
      onPress={()=>handleNavigation('setting')}
      />
      </View>
-     <View style={[globalStyles.displayRowCenter, {marginVertical:10}]}>
+     <View style={[globalStyles.displayRowCenter, {marginVertical:10}, { backgroundColor: '#fff'}]}>
      <FontAwesome name="facebook" color={theme.colors.primaryBlue} size={30}/>
      <Icon name="instagram" color={theme.colors.primaryBlue} size={30} style={{marginHorizontal:20}}/>
      <FontAwesome name="telegram" color={theme.colors.primaryBlue} size={30}/>

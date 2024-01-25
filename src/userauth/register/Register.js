@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Dimensions, Linking, ScrollView } from 'react-native';
+import { StyleSheet, View, Dimensions, Linking, ScrollView, Platform } from 'react-native';
 import globalStyles from '../../../globalstyle';
 import { TextInput,Text, Button,ActivityIndicator} from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
@@ -53,6 +53,7 @@ const Register = ({navigation}) => {
       referral_code : user.referralCode.value,
     }
     await  registerApi(data).then((res)=>{
+      console.log(res)
       const otp = res.data.pin; 
       console.log("otp", otp)
       AsyncStorage.setItem('mobileNumber', data.mobile);
@@ -82,12 +83,12 @@ const Register = ({navigation}) => {
      {loading ? (
       <ActivityIndicator animating={true} size='large' color={theme.colors.blue} style={globalStyles.loading} />
     ) : ''}
-    <View style={[styles.container, {paddingTop:10}]}>
+    <View style={[styles.container, {paddingTop:10}, {paddingBottom: Platform.OS === "ios" ? 10: 0}]}>
     <ScrollView  contentContainerStyle={styles.contentContainer}>
       <View style={styles.topContent}>
       <Text variant="titleMedium" style={styles.textHeading}>Sign Up</Text>
       <TextInput
-      mode="outlined"
+      mode="flat"
       label="Full Name"
       value={user.fullName.value}
       onChangeText={(text) => handleInputChange('fullName', text)}
@@ -116,7 +117,7 @@ const Register = ({navigation}) => {
     <Text style={{ color: 'red' }}>{user.mobileNumber.error}</Text>
       <TextInput
       keyboardType="email-address"
-      mode="outlined"
+      mode="flat"
       label="Email Address"
       value={user.emailAddress.value}
       onChangeText={(text) => handleInputChange('emailAddress', text)}
@@ -130,7 +131,7 @@ const Register = ({navigation}) => {
     />
     <Text style={{ color: 'red' }}>{user.emailAddress.error}</Text>
       <TextInput
-      mode="outlined"
+      mode="flat"
       label="Invite Code (Optional)"
       value={user.referralCode.value}
       onChangeText={(text) => handleInputChange('referralCode', text)}
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
   textInput :{
     marginTop: 8,
     height: 56,
-    backgroundColor: globalStyles.backgroundColor.backgroundColor,
+    backgroundColor: "#e5e5e88a",
   },
   mainButton :{
     paddingVertical: 8,
