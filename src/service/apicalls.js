@@ -134,7 +134,7 @@ export async function updateResult(payload) {
       );
       return response.data;
     } catch (error) {
-      return console.log(error);
+      return error;
     }
 }
 

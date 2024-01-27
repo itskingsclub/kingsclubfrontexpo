@@ -1,10 +1,11 @@
-import { Image, StyleSheet, ToastAndroid, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import globalStyles from '../../globalstyle';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Button, Text, Modal, Portal, TextInput, useTheme, RadioButton, ActivityIndicator } from 'react-native-paper';
 import { deposit, getuser, updateUser } from '../service/apicalls';
 import { UserContext } from '../userDetail/Userdetail';
+import Toast from 'react-native-root-toast';
 
 const Addcoinmodal = ({ visible, hideModal }) => {
   const theme = useTheme();
@@ -22,7 +23,16 @@ const Addcoinmodal = ({ visible, hideModal }) => {
     }
     setCoin(text);
   };
-
+  const showToast2 = (message) => {
+    Toast.show(message, {
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+    });
+  };
   const makePayment = () => {
     setLoading(true)
     // console.log(`Selected Radio Button: ${checked}, Coin Value: ${coin}`);
@@ -33,7 +43,7 @@ const Addcoinmodal = ({ visible, hideModal }) => {
     deposit(data).then((res)=>{
       setLoading(false)
       hideModal();  
-      ToastAndroid.show("Coin Addes Successfully", 3000)
+      showToast2("Coin Addes Successfully")
       console.log(res)
         getuser(userDetail.id).then((res)=>{
             setUserDetail(res.data) 

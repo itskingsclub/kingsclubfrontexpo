@@ -22,8 +22,8 @@ const Home = ({navigation}) => {
                 />
                 <View style={styles.playGameBoxContent}>
                   <Text style={[{color:theme.colors.whiteColor}, {fontSize: globalStyles.fonts.fontSize18},{fontWeight: '700'}]}>Start Play and Earn{'\n'}Money</Text>
-                  <TouchableOpacity style={globalStyles.normalButton}>
-            <Text style={[globalStyles.normalButtonText, {color:globalStyles.backgroundColor.primaryBlue}, {fontSize:globalStyles.fonts.fontSize14}, {fontWeight: '700'}]} onPress={()=>navigation.navigate('gametable')}>Play Games</Text>
+                  <TouchableOpacity style={globalStyles.normalButton}  onPress={()=>navigation.navigate('gametable')}>
+            <Text style={[globalStyles.normalButtonText, {color:globalStyles.backgroundColor.primaryBlue}, {fontSize:globalStyles.fonts.fontSize14}, {fontWeight: '700'}]}>Play Games</Text>
         </TouchableOpacity>
                 </View>
         </View>
