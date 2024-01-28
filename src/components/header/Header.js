@@ -11,14 +11,10 @@ import {UserContext} from '../../userDetail/Userdetail'
 const Header = ({title, icon, navigation, color}) => {
   const theme = useTheme();
   const colorScheme = Appearance.getColorScheme();
-  console.log("colorScheme", colorScheme)
   const {userDetail} = useContext(UserContext);
   const [visible, setVisible] = useState(false); // Include state for the modal
   const showModal = () => setVisible(true); // Function to open the modal
   const hideModal = () => setVisible(false);
-  console.log("userDetail", userDetail)
-  console.log("Hello")
-  console.log("Hello")
   return (
     <>
     <View style={globalStyles.topMobile}></View>

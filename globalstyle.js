@@ -93,7 +93,7 @@ const globalStyles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   containerMain: {
-    backgroundColor: "000",
+    backgroundColor: "#fff",
   },
   scrollContainer: {
     paddingHorizontal: 15,

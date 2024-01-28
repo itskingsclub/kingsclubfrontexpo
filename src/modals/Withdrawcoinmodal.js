@@ -1,10 +1,11 @@
-import { Image, StyleSheet, ToastAndroid, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import globalStyles from '../../globalstyle';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Button, Text, Modal, Portal, TextInput, useTheme, RadioButton, ActivityIndicator } from 'react-native-paper';
 import { getuser, withdrawal } from '../service/apicalls';
 import { UserContext } from '../userDetail/Userdetail';
+import Toast from 'react-native-root-toast';
 
 const Withdrawcoinmodal = ({ visible, hideModal }) => {
   const theme = useTheme();
@@ -22,7 +23,16 @@ const Withdrawcoinmodal = ({ visible, hideModal }) => {
     }
     setCoin(text);
   };
-
+  const showToast2 = (message) => {
+    Toast.show(message, {
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+    });
+  };
   const makePayment = () => {
     setLoading(true)
     // console.log(`Selected Radio Button: ${checked}, Coin Value: ${coin}`);
@@ -34,7 +44,7 @@ const Withdrawcoinmodal = ({ visible, hideModal }) => {
       setLoading(false)
       hideModal();  
       console.log(res)
-      ToastAndroid.show("Coin Remove Successfully", 3000)
+      showToast2("Coin Remove Successfully")
         getuser(userDetail.id).then((res)=>{
             setUserDetail(res.data) 
         })
