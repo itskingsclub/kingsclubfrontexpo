@@ -27,7 +27,7 @@
     "android": {
       "jsEngine": "jsc",
       "package": "com.mukeshjat4908.kingsclub",
-      "permissions": ["CAMERA_ROLL"],
+      "permissions": ["CAMERA_ROLL", "INTERNET"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

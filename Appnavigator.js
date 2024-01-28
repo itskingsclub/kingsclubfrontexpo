@@ -12,6 +12,7 @@ import Gametable from './src/components/gametable/Gametable';
 import Test from './src/components/gametable/Test';
 import Contest from './src/components/contest/Contest';
 import Screenshot from './src/components/contest/Screenshot';
+import Myprofile from './src/components/profile/Myprofile';
 const Stack = createStackNavigator();
 
 const AppNavigator = ({user}) => {
@@ -27,6 +28,7 @@ const AppNavigator = ({user}) => {
       <Stack.Screen name="gametable" component={Gametable} options={{ headerShown: false }}/>
       <Stack.Screen name="contest" component={Contest} options={{ headerShown: false }}/>
       <Stack.Screen name="screenshot" component={Screenshot} options={{ headerShown: false }}/>
+      <Stack.Screen name="myprofile" component={Myprofile} options={{ headerShown: false }}/>
     </Stack.Navigator>
     </NavigationContainer>
   );
