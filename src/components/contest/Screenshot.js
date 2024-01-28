@@ -82,20 +82,20 @@ const Screenshot = ({navigation, route }) => {
     if (userDetail.id === contest.creator) {
       formData.append('creator', userDetail.id);
       formData.append('creator_result', status);
-      formData.append('creator_result_image', {
-        name: uri.substring(uri.lastIndexOf('/') + 1),
-        type: pickerResponse[0].mimeType,
-        uri: uri,
-      });
+      // formData.append('creator_result_image', {
+      //   name: uri.substring(uri.lastIndexOf('/') + 1),
+      //   type: pickerResponse[0].mimeType,
+      //   uri: uri,
+      // });
     }
     if (userDetail.id === contest.joiner) {
       formData.append('joiner', userDetail.id);
       formData.append('joiner_result', status);
-      formData.append('joiner_result_image', {
-        name: uri.substring(uri.lastIndexOf('/') + 1),
-        type: pickerResponse[0].mimeType,
-        uri: uri,
-      });
+      // formData.append('joiner_result_image', {
+      //   name: uri.substring(uri.lastIndexOf('/') + 1),
+      //   type: pickerResponse[0].mimeType,
+      //   uri: uri,
+      // });
     }
     console.log("formData", formData)
   

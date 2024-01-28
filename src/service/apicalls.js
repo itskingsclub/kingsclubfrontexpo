@@ -40,7 +40,6 @@ export async function verifyotpApi(payload) {
 }
 
 export async function getuser(id) {
-  console.log(id)
     try {
       const response = await APIKit.get(
         `/user/${id}`,
@@ -130,11 +129,14 @@ export async function updateResult(payload) {
     try {
       const response = await APIKit.put(
         `/challenge/update-result`,
-        payload,
+        payload,  {timeout: 15000}
       );
       return response.data;
     } catch (error) {
-      return error;
+      console.error("Error in updateResult:", error);
+
+    // Rethrow the error to maintain the error flow
+    throw error;
     }
 }
 

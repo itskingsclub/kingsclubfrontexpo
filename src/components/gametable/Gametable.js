@@ -66,7 +66,7 @@ const Gametable = ({navigation}) => {
     const refreshContent2 = async () => {
         setLoading2(true); 
           const data = {
-            id: 1
+            id: userDetail.id
           }
      await  myChallange(data)
           .then((res) => {
