@@ -116,7 +116,7 @@ export async function updateChallange(payload) {
     try {
       const response = await APIKit.put(
         `/challenge/update`,
-        payload,
+        payload
       );
       return response.data;
     } catch (error) {
@@ -129,14 +129,16 @@ export async function updateResult(payload) {
     try {
       const response = await APIKit.put(
         `/challenge/update-result`,
-        payload,  {timeout: 15000}
+        payload,
+        {
+          headers : {
+            'Content-Type': false,
+          },
+        }
       );
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error in updateResult:", error);
-
-    // Rethrow the error to maintain the error flow
-    throw error;
     }
 }
 

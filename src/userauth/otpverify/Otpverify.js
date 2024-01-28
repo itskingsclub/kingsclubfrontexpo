@@ -31,6 +31,9 @@ const Otpverify = ({navigation}) => {
     };
     fetchNumber();
   }, []);
+  const restartApp = async () => {
+    await Updates.reloadAsync();
+  };
   const otpSubmit = async  () => {
     setLoading(true)
     data= {
@@ -46,7 +49,7 @@ const Otpverify = ({navigation}) => {
      const jsonValue = JSON.stringify(res.data);
       AsyncStorage.setItem('userDetail', jsonValue);
       setError('')
-      Updates.reloadAsync()
+      restartApp()
       navigation.navigate('parent')
       } else{
         console.log("false", res.message)

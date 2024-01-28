@@ -1,4 +1,4 @@
-import {View, Text, SafeAreaView, FlatList} from 'react-native';
+import {View, Text, SafeAreaView, FlatList, Image} from 'react-native';
 import React, { useContext, useEffect } from 'react';
 import { Drawer } from 'react-native-paper';
 import globalStyles from '../../globalstyle';
@@ -24,7 +24,9 @@ const CustomDrawer = ({navigation}) => {
     });
     return unsubscribe;
   }, [isDrawerOpen]);
-
+  const restartApp = async () => {
+    await Updates.reloadAsync();
+  };
   const handleNavigation = (screenName) => {
     setIsDrawerOpen(false); // Close the drawer on navigation
     if(screenName === "wallet"){
@@ -37,7 +39,7 @@ const CustomDrawer = ({navigation}) => {
   const clearAsyncStorage = async () => {
     try {
       await AsyncStorage.clear();
-     await Updates.reloadAsync()
+      restartApp()
     } catch (error) {
       console.error('Error clearing AsyncStorage:', error);
     }
@@ -46,7 +48,20 @@ const CustomDrawer = ({navigation}) => {
   return (
     <SafeAreaView style={{ width:'100%',flex: 1, backgroundColor: "fff" }}>
       <View style={[globalStyles.drawerTop, globalStyles.displaycolumn, {backgroundColor:theme.colors.primaryBlue}]}>
-      <Icon name="user-large" color="#fff" size={60} style={{marginBottom:10}}/>
+      {userDetail.profile != null ? (
+       <Image
+       source={{ uri: `http://192.168.1.34:3000/upload/${userDetail.profile}` }}
+       style={{
+          width: 70,
+          height: 70,
+          marginBottom:10,
+          objectFit: 'contain',
+          borderRadius: 50
+        }}
+        />
+        ) : (
+          <Icon name="user-large" color="#fff" size={60} style={{marginBottom:10}}/>
+          )} 
       <Text style={{color:theme.colors.whiteColor}}>{userDetail.name}</Text>
         <Text style={{color:theme.colors.whiteColor}}>{userDetail.mobile}</Text>
       </View>

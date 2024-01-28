@@ -8,6 +8,7 @@ import Header from '../header/Header';
 import { updateResult } from '../../service/apicalls';
 import { UserContext } from '../../userDetail/Userdetail';
 import Toast from 'react-native-root-toast';
+import mime from 'mime';
 
 const Screenshot = ({navigation, route }) => {
   const { status, contest } = route.params;
@@ -78,32 +79,34 @@ const Screenshot = ({navigation, route }) => {
     formData.append('id', contest.id);
     formData.append('updated_by', userDetail.id);
     const uri = pickerResponse[0].uri;
+    console.log("mime", mime.getType(pickerResponse[0].uri))
+    console.log("image", pickerResponse[0].mimeType)
     
     if (userDetail.id === contest.creator) {
       formData.append('creator', userDetail.id);
       formData.append('creator_result', status);
-      // formData.append('creator_result_image', {
-      //   name: uri.substring(uri.lastIndexOf('/') + 1),
-      //   type: pickerResponse[0].mimeType,
-      //   uri: uri,
-      // });
+      formData.append('creator_result_image', {
+        name: uri.substring(uri.lastIndexOf('/') + 1),
+        type:  pickerResponse[0].mimeType,
+        uri: uri,
+      });
     }
     if (userDetail.id === contest.joiner) {
       formData.append('joiner', userDetail.id);
       formData.append('joiner_result', status);
-      // formData.append('joiner_result_image', {
-      //   name: uri.substring(uri.lastIndexOf('/') + 1),
-      //   type: pickerResponse[0].mimeType,
-      //   uri: uri,
-      // });
+      formData.append('joiner_result_image', {
+        name: uri.substring(uri.lastIndexOf('/') + 1),
+        type: pickerResponse[0].mimeType,
+        uri: uri,
+      });
     }
-    console.log("formData", formData)
+    console.log("formData", formData._parts)
   
     await updateResult(formData).then((res) => {
       console.log("res", res);
       setLoading(false);
       hideModal();
-      // navigation.navigate('gametable');
+      navigation.navigate('gametable');
     });
   };
   

@@ -26,7 +26,7 @@
     },
     "android": {
       "jsEngine": "jsc",
-      "package": "com.mukeshjat4908.kingsclub",
+      "package": "relatedtoanysample.kingsclub",
       "permissions": ["CAMERA_ROLL", "INTERNET"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -47,7 +47,8 @@
       "expo-font",
       {
         "fonts": [
-          "./assets/fonts/Inter-Black.otf"
+          "./assets/fonts/Inter-Black.ttf",
+          "./assets/fonts/Inter-Medium.ttf"
         ]
       }
     ],
