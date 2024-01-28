@@ -21,7 +21,7 @@ const BottomNavigator = () => {
       case 'home':
         return <Home navigation={navigation} />; // Pass navigation prop to Home component
       case 'mywallet':
-        return <Wallet navigation={navigation} />;
+        return <Wallet navigation={navigation}  icon = {true } />;
       case 'contact':
         return <Contact navigation={navigation} />;
       default:

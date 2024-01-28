@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, ScrollView, Platform } from 'react-native';
+import React, { useEffect, useRef, useState  } from 'react';
+import { StyleSheet, View, ScrollView, Platform, KeyboardAvoidingView } from 'react-native';
 import { IconButton, Text, Button, useTheme, TextInput, ActivityIndicator} from 'react-native-paper';
 import globalStyles from '../../../globalstyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -85,6 +85,10 @@ const Login = ({navigation}) => {
 
   return (
     <>
+     <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
     {loading ? (
       <ActivityIndicator animating={true} size='large' color={theme.colors.blue} style={globalStyles.loading} />
     ) : ''}
@@ -143,7 +147,7 @@ const Login = ({navigation}) => {
   </View>
       </ScrollView>
     </View>
-   
+    </KeyboardAvoidingView>
     </>
   );
 };
