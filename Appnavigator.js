@@ -13,6 +13,11 @@ import Test from './src/components/gametable/Test';
 import Contest from './src/components/contest/Contest';
 import Screenshot from './src/components/contest/Screenshot';
 import Myprofile from './src/components/profile/Myprofile';
+import BottomNavigator from './src/bottom/BottomNavigator';
+import Wallet from './src/bottom/Wallet';
+import Leaderboard from './src/components/leaderboard/Leaderboard';
+import Settings from './src/components/setting/Settings';
+import Termscondition from './src/components/setting/Termscondition';
 const Stack = createStackNavigator();
 
 const AppNavigator = ({user}) => {
@@ -29,6 +34,10 @@ const AppNavigator = ({user}) => {
       <Stack.Screen name="contest" component={Contest} options={{ headerShown: false }}/>
       <Stack.Screen name="screenshot" component={Screenshot} options={{ headerShown: false }}/>
       <Stack.Screen name="myprofile" component={Myprofile} options={{ headerShown: false }}/>
+      <Stack.Screen name="wallet" component={Wallet} options={{ headerShown: false }} />
+      <Stack.Screen name="leaderboard" component={Leaderboard} options={{ headerShown: false }} />
+      <Stack.Screen name="setting" component={Settings} options={{ headerShown: false }}/>
+      <Stack.Screen name="termscondition" component={Termscondition} options={{ headerShown: false }}/>
     </Stack.Navigator>
     </NavigationContainer>
   );

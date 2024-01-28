@@ -27,10 +27,10 @@ const Header = ({title, icon, navigation, color}) => {
           </TouchableOpacity>
            :
            <TouchableOpacity onPress={() => navigation.goBack()}>
-          <MaterialIcons name="arrow-back-ios" color="#000" size={24} />
+          <MaterialIcons name="arrow-back-ios" color={ color ? "#fff" :"#000"} size={24} />
           </TouchableOpacity>
             }
-          <Text style={globalStyles.headerTitle}>{title}</Text>
+          <Text style={[globalStyles.headerTitle, {color: color ? "#fff" :"#000"}]}>{title}</Text>
         </View>
         <Button icon="plus" buttonColor='#FFCE6D' textColor='#000' labelStyle={{paddingVertical:0}} mode="contained" onPress={showModal}>
     {userDetail.total_coin}

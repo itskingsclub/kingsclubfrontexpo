@@ -27,8 +27,12 @@ const CustomDrawer = ({navigation}) => {
 
   const handleNavigation = (screenName) => {
     setIsDrawerOpen(false); // Close the drawer on navigation
-    navigation.navigate(screenName);
-    navigation.closeDrawer();
+    if(screenName === "wallet"){
+    navigation.navigate(screenName, { icon: false });
+    } else{
+      navigation.navigate(screenName);
+    }
+      navigation.closeDrawer();
   };
   const clearAsyncStorage = async () => {
     try {
@@ -63,6 +67,7 @@ const CustomDrawer = ({navigation}) => {
      style={{ backgroundColor: '#fff' }}
      icon="wallet"
      label="My Wallet"
+     onPress={() => handleNavigation('wallet')}
      />
       <Drawer.Item
      style={{ backgroundColor: '#fff' }}

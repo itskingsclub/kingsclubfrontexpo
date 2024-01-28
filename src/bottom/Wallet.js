@@ -11,7 +11,9 @@ import Addcoinmodal from '../modals/Addcoinmodal';
 import Withdrawcoinmodal from '../modals/Withdrawcoinmodal'
 import Header from '../components/header/Header';
 
-const Wallet = ({navigation}) => {
+const Wallet = ({navigation, icon}) => {
+  // const icon = icon.params?.icon
+  // console.log("icon", icon)
   const theme = useTheme();
   const [visible, setVisible] = useState(false); 
   const [visibleWithdraw, setVisibleWithdraw] = useState(false); 
@@ -69,7 +71,7 @@ const Wallet = ({navigation}) => {
     <Addcoinmodal visible={visible} hideModal={hideModal}/>
     <Withdrawcoinmodal visible={visibleWithdraw} hideModal={hideModalWithdraw}/>
    <View style={globalStyles.container}>
-   <Header title="Wallet" icon={true}  navigation={navigation}/>
+   <Header title="Wallet" icon={icon}  navigation={navigation}/>
       <View style={[globalStyles.scrollContainer, globalStyles.scrollContainerNoContent]}>
       <View style={[styles.playGameBox, globalStyles.containerPadding]}>
         <View style={[styles.coinTop]}>
