@@ -34,6 +34,7 @@ const Withdrawcoinmodal = ({ visible, hideModal }) => {
     });
   };
   const makePayment = () => {
+    if (userDetail.total_coin >= coin) {
     setLoading(true)
     // console.log(`Selected Radio Button: ${checked}, Coin Value: ${coin}`);
       data = {
@@ -43,12 +44,15 @@ const Withdrawcoinmodal = ({ visible, hideModal }) => {
     withdrawal(data).then((res)=>{
       setLoading(false)
       hideModal();  
-      console.log(res)
+      console.log("res", )
       showToast2("Coin Remove Successfully")
         getuser(userDetail.id).then((res)=>{
             setUserDetail(res.data) 
         })
       })
+    }else{
+      showToast2("You Don't have sufficient Coin to withdraw");
+    }
   };
 
   return (

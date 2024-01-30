@@ -43,7 +43,7 @@ const Addcoinmodal = ({ visible, hideModal }) => {
     deposit(data).then((res)=>{
       setLoading(false)
       hideModal();  
-      showToast2("Coin Addes Successfully")
+      showToast2("Coin Added Successfully")
       console.log(res)
         getuser(userDetail.id).then((res)=>{
             setUserDetail(res.data) 

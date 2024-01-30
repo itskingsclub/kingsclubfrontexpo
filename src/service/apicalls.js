@@ -143,6 +143,7 @@ export async function updateResult(payload) {
 }
 
 export async function myPayment(payload) {
+  console.log("payload", payload)
     try {
       const response = await APIKit.post(
         `/payment/my-payments`,

@@ -21,7 +21,6 @@ import Termscondition from './src/components/setting/Termscondition';
 const Stack = createStackNavigator();
 
 const AppNavigator = ({user}) => {
-  console.log("user",user)
   return (
     <NavigationContainer style={globalStyles.container}>
     <Stack.Navigator>

@@ -21,12 +21,11 @@ const Gametable = ({navigation}) => {
     const [visiblemodal, setVisiblemodal] = useState(false); 
     const [loading, setLoading] = useState(false);
     const [loading2, setLoading2] = useState(false);
-
+    const [updateChallenge, setUpdateChallenge] = useState(false)
     const showModal = () => setVisible(true); 
     const showModalChallange = () => setVisiblemodal(true); 
     const hideModal = () => setVisible(false);
     const hideModalChallange = () => setVisiblemodal(false);
-
     const [activeTab, setActiveTab] = useState('tab1');
     const handleTabClick = (tab) => {
       setActiveTab(tab);
@@ -34,7 +33,8 @@ const Gametable = ({navigation}) => {
     useEffect(() => {
         refreshContent();
         refreshContent2();
-    },[navigation])
+        setVisiblemodal(false)
+    },[navigation, updateChallenge])
 
     const showToast2 = (message) => {
         Toast.show(message, {
@@ -78,20 +78,17 @@ const Gametable = ({navigation}) => {
           });
       };
       const challangeFunction = async (data) => {
-        console.log("Click")
           if (data.challenge_status === 'Waiting') {
-            console.log("waiting")
             if (data.creator === userDetail.id) {
                 showToast2("Creator can't join the table.");
               } else {
+                  if (userDetail.total_coin >= data.amount) {
             const sendData = {
               id: data.id,
               joiner: userDetail.id,
               challenge_status: "Processing",
               updated_by: userDetail.id
             };
-      
-            if (userDetail.total_coin >= data.amount) {
               await updateChallange(sendData).then((res) => {
                 navigation.navigate('contest', { contestData: data });
               });
@@ -99,7 +96,10 @@ const Gametable = ({navigation}) => {
               showToast2("You Don't have sufficient Coin to join");
             }
         }
-        } else {
+        } else if (data.challenge_status === 'Clear'){
+            // console.log("table clear")
+        } 
+        else {
             navigation.navigate('contest', { contestData: data });
         }
       };
@@ -143,10 +143,10 @@ const Gametable = ({navigation}) => {
             <>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={globalStyles.scrollViewContent}>
             {mychallengs && mychallengs.map((data, i)=>(
-                <View style={globalStyles.challangeBox} key={i}>
+                <TouchableOpacity style={globalStyles.challangeBox} key={i}>
                 <View style={globalStyles.challangeBoxTop}>
                 <View style={globalStyles.chip}  >
-                    <Text variant="labelMedium" >KC34354</Text>
+                    <Text variant="labelMedium" >{data.id}</Text>
                 </View>
                 <Text variant="labelMedium" textColor={theme.colors.primary}> {data.challenge_status === "Clear" ? "Challange Completed" :  "Challenge Accepted" }</Text>
                 <View style={[globalStyles.displayRowCenter, {gap:10}]}>
@@ -154,36 +154,11 @@ const Gametable = ({navigation}) => {
                 <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{overflow: 'hidden'}, {width:100}]}>Mukesh Jat ada adad das</Text>
                 </View>
                 </View>
-                {data.challenge_status === 'Waiting' ? (
-                    <>
-                    <View style={[ globalStyles.challangeBoxBottom, globalStyles.challangeBoxBottom2, {width: 360}]}>
-                <Text variant="bodySmall" style={[globalStyles.width50, {textAlign: 'center'}, {paddingVertical:5}, {borderBottomLeftRadius:8}, {backgroundColor: '#FFE3A5'}]}>Waiting for joiner</Text>
-                </View>
-                    </>
-                ) : data.challenge_status === "Processing" || data.challenge_status === "Playing" ? (
-                    <>
-                     <TouchableOpacity onPress={()=>navigation.navigate('contest', {contestData: data})}  style={[ globalStyles.challangeBoxBottom, globalStyles.challangeBoxBottom2, {width: 360}]}>
+                <TouchableOpacity onPress={data.challenge_status === ("Processing" ||  "Playing" || "Review") ? ()=>navigation.navigate('contest', {contestData: data}) : ()=>{refreshContent(), refreshContent2()}} style={[ globalStyles.challangeBoxBottom, globalStyles.challangeBoxBottom2, {width: 360}]}>
                 <Text variant="bodySmall" style={[globalStyles.width50, {textAlign: 'center'}, {paddingVertical:5}, {borderBottomLeftRadius:8}, {backgroundColor: '#FFE3A5'}]}>{data.challenge_status}</Text>
                 </TouchableOpacity>
-                    </>
-                ) : data.challenge_status === "Clear" ?
-                (
-                    <>
-                    <View style={[globalStyles.displayRowbetween, globalStyles.challangeBoxBottom, globalStyles.challangeBoxBottom2]}>
-                <Text variant="bodySmall" style={[globalStyles.width50, {textAlign: 'center'}, {paddingVertical:5}, {borderBottomLeftRadius:8}, {backgroundColor: '#CBFFC5'}]}> {determineResult(data, userDetail.id) === "Win" ? "You Win" : "You Lose"}</Text>
-                <Text variant="bodySmall" style={[globalStyles.width50, {textAlign: 'center'}, {paddingVertical:5}, {borderBottomRightRadius:8}, {backgroundColor: '#CBFFC5'}]}>{(data.amount  - (data.amount * 10)/100) * 2} Coin</Text>
-                </View>
-                    </>
-                ) :
-                (
-                    <>
-                    <View style={[ globalStyles.challangeBoxBottom, globalStyles.challangeBoxBottom2, {width: 360}]}>
-                <Text variant="bodySmall" style={[globalStyles.width50, {textAlign: 'center'}, {paddingVertical:5}, {borderBottomLeftRadius:8}, {backgroundColor: '#FFE3A5'}]}>Under Review</Text>
-                </View>
-                    </>
-                ) }
                 
-            </View>
+            </TouchableOpacity>
             ))}
         </ScrollView>
             </>
@@ -210,7 +185,7 @@ const Gametable = ({navigation}) => {
           ) : (
             <>
         {challengs && challengs.map((data, i)=>(
-             <View style={globalStyles.challangesBox} key={i}>
+             <TouchableOpacity style={globalStyles.challangesBox} key={i}  onPress={() => challangeFunction(data)}>
                 <View style={globalStyles.challangeBoxTop}>
                 <View style={[globalStyles.displayRowbetween, {gap:5}, {justifyContent: 'space-between'}, {alignItems: 'flex-end'}]}>
                     <View style={[{alignItems: 'center'}, {gap:5}, globalStyles.challangeschallenger]}>
@@ -233,9 +208,9 @@ const Gametable = ({navigation}) => {
                 <View style={[globalStyles.displayRowbetween, globalStyles.challangeBoxBottom, globalStyles.challangeBoxBottom2]}>
                 <Text variant="bodyMedium" style={[globalStyles.width50, {textAlign: 'center'}, {paddingVertical:2}, {borderBottomLeftRadius:8}, {backgroundColor: '#FFE3A5'}]}>Winning: {(data.amount - (data.amount * 10)/100) * 2}</Text>
                 <Text variant="bodyMedium" style={[globalStyles.width50, {textAlign: 'center'}, {paddingVertical:2}, {borderBottomRightRadius:8}, {backgroundColor: '#CBFFC5'}]}
-                   onPress={() => challangeFunction(data)}>{data.challenge_status === "Waiting" ?  "Accept" : data.challenge_status }</Text>
+                  >{ data.challenge_status === "Waiting" ?  (userDetail.id === data.creator ?  "Waiting" :  "Accept"  ) : data.challenge_status }</Text>
                 </View>
-    </View>
+    </TouchableOpacity>
         ))}
             </>
         )}
@@ -325,7 +300,7 @@ const Gametable = ({navigation}) => {
     </View>
     </View>
     <Addcoinmodal visible={visible} hideModal={hideModal}/>
-    <Createchallangemodal visiblemodal={visiblemodal} hideModalChallange={hideModalChallange}/>
+    <Createchallangemodal visiblemodal={visiblemodal} hideModalChallange={hideModalChallange} setUpdateChallenge={setUpdateChallenge}/>
     </>
   )
 }

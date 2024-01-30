@@ -8,6 +8,7 @@ import Header from '../header/Header';
 import { UserContext } from '../../userDetail/Userdetail';
 import { challange, getuser, updateChallange, updateResult } from '../../service/apicalls';
 import Toast from 'react-native-root-toast';
+import * as Clipboard from 'expo-clipboard';
 
 const Contest = ({ route, navigation }) => {
   const { contestData } = route.params;
@@ -39,7 +40,6 @@ const Contest = ({ route, navigation }) => {
 
   const fatchContest = async () =>{
     challange(contestData.id).then((res)=>{
-      console.log(res)
       setContest(res.data)
     }).catch((err)=>{
       console.log(err)
@@ -74,7 +74,6 @@ const Contest = ({ route, navigation }) => {
       updated_by: userDetail.id
   }
   await updateChallange(sendData).then((res)=>{
-      console.log(res)
       setVisible(false)
       fatchContest();
       setRoomcode({
@@ -89,14 +88,18 @@ const Contest = ({ route, navigation }) => {
   const refreshContent = () =>{
     fatchContest()
   }
+    const copyRoomCodeToClipboard = () => {
+    Clipboard.setString(contest.room_code);
+    showToast2("Room Code copied successfully!");
+  };
   return (
     <>
      {loading ? (
            <ActivityIndicator animating={true} size='large' style={globalStyles.loading} color={globalStyles.backgroundColor.primaryBlue} />
-          ) : ""}
+          ) : "" }
     <View style={globalStyles.container}>
     <Header title="Contest" navigation={navigation}/>
-  {contest &&  
+  {contest && 
    <ScrollView contentContainerStyle={[globalStyles.scrollContainer, globalStyles.scrollContainerNoContent]}>
     <View >
     <View style={globalStyles.challangesBox}>
@@ -107,8 +110,8 @@ const Contest = ({ route, navigation }) => {
                 <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{overflow: 'hidden'}, {width:100},]}>{contest.creatorUser.name}</Text>
                     </View>
                     <View style={globalStyles.challangeFor}>
-                    <View style={[globalStyles.chip, {marginBottom: contest.challenge_status === "Playing" ? 13 : 0}]}  >
-                    <Text variant='labelMedium'>KC - {contest.id + 10000}</Text>
+                    <View style={[globalStyles.chip, {marginBottom: contest.challenge_status === "Playing" ? 13 : 0}, {textAlign: 'center'}]}  >
+                    <Text variant='labelMedium' style={{textAlign: 'center'}}>KC - {contest.id}</Text>
                 </View>
                 <View style={globalStyles.challangeFor}>
                 <Text variant={contest.challenge_status === "Playing" ? "labelLarge" : "labelMedium"} textColor={theme.colors.primary} style={{textAlign: 'center'}} >VS</Text>
@@ -124,8 +127,10 @@ const Contest = ({ route, navigation }) => {
                 </View>
                 </View>
                 <View style={[globalStyles.displayRowbetween, globalStyles.challangeBoxBottom, globalStyles.challangeBoxBottom2]}>
-                <Text variant="bodyMedium" style={[globalStyles.width50, {textAlign: 'center'}, {paddingVertical:5}, {borderBottomLeftRadius:8}, {backgroundColor: '#FFE3A5'}]}>{contest.challenge_status !== "Processing" ? (`total coin: ${contest.amount} \n`) : ""} Winning: {(contest.amount - (contest.amount * 10)/100)* 2}  </Text>
-                <Text variant="bodyMedium" style={[globalStyles.width50, {textAlign: 'center'}, {paddingVertical:5}, {borderBottomRightRadius:8}, {backgroundColor: '#CBFFC5'}, {color: '#028907'}]}> Room Code {contest.challenge_status !== "Processing" ? (`- \n ${contest.room_code}`) : ""}<MaterialCommunityIcons name="content-copy" color="#028907" size={18}/></Text>
+                <Text variant="bodyMedium" style={[globalStyles.width50, {textAlign: 'center'}, {paddingVertical:5}, {borderBottomLeftRadius:8}, {backgroundColor: '#FFE3A5'}]}>{contest.challenge_status !== "Processing" ? (`total coin: ${(contest.amount)*2} \n`) : ""} Winning: {(contest.amount - (contest.amount * 10)/100)* 2}  </Text>
+                <TouchableOpacity onPress={copyRoomCodeToClipboard} style={[globalStyles.width50, {textAlign: 'center'}, {paddingVertical:5}, {borderBottomRightRadius:8}, {backgroundColor: '#CBFFC5'}, {color: '#028907'}]}>
+                <Text variant="bodyMedium" style={[{textAlign: 'center'}, {paddingVertical:5}, {borderBottomRightRadius:8}, {backgroundColor: '#CBFFC5'}, {color: '#028907'}]}> Room Code {contest.challenge_status !== "Processing" ? (`- \n ${contest.room_code}`) : ""}<MaterialCommunityIcons name="content-copy" color="#028907" size={18}/></Text>
+                </TouchableOpacity>
                 </View>
     </View>
         {contest.creator === userDetail.id ? (
@@ -153,8 +158,6 @@ const Contest = ({ route, navigation }) => {
         </View>
           </>
         )}
-   
-    
     <View style={globalStyles.cover1}>
         {listItems.map((item, index) => (
           <Text style={globalStyles.listItemText} key={index}>{`${index + 1}. ${item}`} </Text>

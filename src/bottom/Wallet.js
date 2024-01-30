@@ -1,4 +1,4 @@
-import { StyleSheet, View,TouchableOpacity,ScrollView, Image } from 'react-native'
+import { StyleSheet, View,TouchableOpacity,ScrollView, Image, KeyboardAvoidingView, Platform } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import globalStyles from '../../globalstyle';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -30,6 +30,7 @@ const Wallet = ({navigation, icon}) => {
     const data = {
       id:userDetail.id
     }
+    console.log(data)
     myPayment(data).then((res)=>{
       setMypayment(res.data)
       setLoading(false)
@@ -70,7 +71,10 @@ const Wallet = ({navigation, icon}) => {
    <>
     <Addcoinmodal visible={visible} hideModal={hideModal}/>
     <Withdrawcoinmodal visible={visibleWithdraw} hideModal={hideModalWithdraw}/>
-   <View style={globalStyles.container}>
+    <KeyboardAvoidingView
+      style={globalStyles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
    <Header title="Wallet" icon={icon}  navigation={navigation}/>
       <View style={[globalStyles.scrollContainer, globalStyles.scrollContainerNoContent]}>
       <View style={[styles.playGameBox, globalStyles.containerPadding]}>
@@ -161,7 +165,7 @@ const Wallet = ({navigation, icon}) => {
           
         </View>
     </ScrollView>
-   </View>
+   </KeyboardAvoidingView>
    </>
   )
 }
