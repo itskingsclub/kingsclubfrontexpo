@@ -7,7 +7,7 @@ import { createChallange, getuser } from '../service/apicalls';
 import { UserContext } from '../userDetail/Userdetail';
 import Toast from 'react-native-root-toast';
 
-const Createchallangemodal = ({ visiblemodal, hideModalChallange }) => {
+const Createchallangemodal = ({ visiblemodal, hideModalChallange, setUpdateChallenge }) => {
   const theme = useTheme();
   const {userDetail, setUserDetail} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
@@ -30,6 +30,7 @@ const Createchallangemodal = ({ visiblemodal, hideModalChallange }) => {
     }
     setCoin(text);
   };
+
   const showToast2 = (message) => {
     Toast.show(message, {
         duration: Toast.durations.LONG,
@@ -55,9 +56,8 @@ const Createchallangemodal = ({ visiblemodal, hideModalChallange }) => {
         .then((res) => {
           hideModalChallange();
           setLoading(false);
-  
-          showToast2("Challenge created");
-  
+          showToast2("Challenge created successfully!");
+          setUpdateChallenge(true)
           getuser(userDetail.id)
             .then((res) => {
               setUserDetail(res.data);
@@ -71,7 +71,6 @@ const Createchallangemodal = ({ visiblemodal, hideModalChallange }) => {
         });
     } else {
       showToast2("You Don't have sufficient Coin to join");
-      console.log("You Don't have sufficient Coin to join");
     }
   };
   
