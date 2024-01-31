@@ -82,7 +82,7 @@ const Gametable = ({navigation}) => {
             if (data.creator === userDetail.id) {
                 showToast2("Creator can't join the table.");
               } else {
-                  if (userDetail.total_coin >= data.amount) {
+                  if (userDetail.win_coin >= data.amount) {
             const sendData = {
               id: data.id,
               joiner: userDetail.id,
@@ -120,7 +120,7 @@ const Gametable = ({navigation}) => {
     <View style={[globalStyles.scrollContainer, globalStyles.scrollContainerNoContent]}>
     <View style={[globalStyles.normalCard, {backgroundColor: globalStyles.backgroundColor.primaryBlue}, globalStyles.displayRowbetween]}>
         <View>
-            <Text style={[{fontSize:globalStyles.fonts.fontSize24}, {color:globalStyles.textColor.whiteColor}, {fontWeight:'700'}]}>₹ {userDetail.total_coin} </Text>
+            <Text style={[{fontSize:globalStyles.fonts.fontSize24}, {color:globalStyles.textColor.whiteColor}, {fontWeight:'700'}]}>₹ {userDetail.win_coin + userDetail.game_coin} </Text>
             <Text variant="titleMedium" style={[{color:theme.colors.whiteColor}]}>Total Coin</Text>
         </View>
         <Image

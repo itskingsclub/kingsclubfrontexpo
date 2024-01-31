@@ -88,9 +88,9 @@ const Wallet = ({navigation, icon}) => {
                   marginRight: 5
                 }} />
         <Text variant="titleLarge" style={[{color:theme.colors.whiteColor}]}>
-          {userDetail.total_coin}.00</Text></View>
+          {userDetail.win_coin + userDetail.game_coin}.00</Text></View>
                 <Text variant="bodySmall" style={[{color:theme.colors.gray}]}>(1 coin = 1Rs.)</Text>
-                <Text variant="bodyMedium" style={[{color:theme.colors.gray}]}>( Refer  Commission Coin = 100.00)</Text>
+                <Text variant="bodyMedium" style={[{color:theme.colors.gray}]}>( Refer  Commission Coin = {userDetail.refer_coin == null ? "00" : userDetail.refer_coin}.00)</Text>
         </View>
         <View style={globalStyles.displayRowbetween}>
         <View style={[styles.coinsTop]}>
@@ -103,7 +103,7 @@ const Wallet = ({navigation, icon}) => {
                   marginRight: 5
                 }} />
         <Text variant="titleLarge" style={[{color:theme.colors.whiteColor}]}>
-          {userDetail.total_coin}.00</Text></View>
+          {userDetail.game_coin}.00</Text></View>
         </View>
         <View style={[styles.coinsTop]}>
         <Text variant="bodyLarge" style={[{color:theme.colors.whiteColor}]}>Win coin</Text>
@@ -115,7 +115,7 @@ const Wallet = ({navigation, icon}) => {
                   marginRight: 5
                 }} />
         <Text variant="titleLarge" style={[{color:theme.colors.whiteColor}]}>
-          {userDetail.total_coin}.00</Text></View>
+          {userDetail.win_coin == null ? "00" : userDetail.win_coin}.00</Text></View>
         </View>
         </View>
       </View>
