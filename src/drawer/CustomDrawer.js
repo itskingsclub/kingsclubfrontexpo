@@ -8,13 +8,13 @@ import FontAwesome from 'react-native-vector-icons/MaterialIcons';
 import { UserContext } from '../userDetail/Userdetail';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Updates from 'expo-updates';
-import baseAddress from '../service/baseAddress';
+import baseaddress from '../service/baseAddress';
 
 const CustomDrawer = ({navigation}) => {
   const theme = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
   const {userDetail} = useContext(UserContext);
-  console.log(`${baseAddress}/upload/${userDetail.profile}`)
+  console.log(`${baseaddress}/upload/${userDetail.profile}`)
   // Close the drawer when the component mounts
   useEffect(() => {
     const unsubscribe = navigation.addListener('state', () => {
@@ -51,7 +51,7 @@ const CustomDrawer = ({navigation}) => {
       <View style={[globalStyles.drawerTop, globalStyles.displaycolumn, {backgroundColor:theme.colors.primaryBlue}]}>
       {userDetail.profile != null ? (
        <Image
-       source={{ uri: `${baseAddress}/upload/${userDetail.profile}` }}
+       source={{ uri: `${baseaddress}/upload/${userDetail.profile}` }}
        style={{
           width: 70,
           height: 70,
