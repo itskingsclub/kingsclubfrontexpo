@@ -44,14 +44,14 @@
     "owner": "mukeshjat4908",
     "plugins": [
       [
-      "expo-font",
-      {
-        "fonts": [
-          "./assets/fonts/Inter-Black.ttf",
-          "./assets/fonts/Inter-Medium.ttf"
-        ]
-      }
-    ],
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Inter-Black.ttf",
+            "./assets/fonts/Inter-Medium.ttf"
+          ]
+        }
+      ],
       "expo-updates"
     ],
     "runtimeVersion": {
