@@ -1,33 +1,46 @@
-import React, { useEffect, useRef, useState  } from 'react';
-import { StyleSheet, View, ScrollView, Platform, KeyboardAvoidingView } from 'react-native';
-import { IconButton, Text, Button, useTheme, TextInput, ActivityIndicator} from 'react-native-paper';
-import globalStyles from '../../../globalstyle';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { loginApi } from '../../service/apicalls';
+import React, { useEffect, useRef, useState } from "react";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Platform,
+  KeyboardAvoidingView,
+} from "react-native";
+import {
+  IconButton,
+  Text,
+  Button,
+  useTheme,
+  TextInput,
+  ActivityIndicator,
+} from "react-native-paper";
+import globalStyles from "../../../globalstyle";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { loginApi } from "../../service/apicalls";
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
   const theme = useTheme();
   const [user, setUser] = useState({
-    mobileNumber: '',
+    mobileNumber: "",
     error: false,
-    errorMessage: '',
+    errorMessage: "",
   });
-  const [disable , setDisable] = useState(true)
-  const [loading, setLoading] = useState(false)
+  const [disable, setDisable] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (key, value) => {
-    let errorMessage = '';
+    let errorMessage = "";
     let error = false; // Initially, there's no error
-    if (key === 'mobileNumber') {
+    if (key === "mobileNumber") {
       if (value.length < 1) {
-        errorMessage = 'Please enter your mobile number.';
+        errorMessage = "Please enter your mobile number.";
         error = true;
       } else {
         const mobileRegex = /^[0-9]{10}$/;
         if (mobileRegex.test(value) === false) {
-          errorMessage = 'Please enter a valid 10-digit mobile number.';
+          errorMessage = "Please enter a valid 10-digit mobile number.";
           error = true;
         }
       }
@@ -35,7 +48,7 @@ const Login = ({navigation}) => {
     setUser({
       ...user,
       [key]: value,
-      error: errorMessage !== '',
+      error: errorMessage !== "",
       errorMessage: errorMessage,
     });
     setDisable(error);
@@ -45,7 +58,7 @@ const Login = ({navigation}) => {
   };
 
   const submitUser = async () => {
-    setLoading(true)
+    setLoading(true);
     if (user.error) {
       return;
     }
@@ -53,26 +66,26 @@ const Login = ({navigation}) => {
     //   mobile: "0087654321"
     // }
     data = {
-      mobile: user.mobileNumber
-    }
-    await  loginApi(data).then((res)=>{
-      if(res.success === true){
-        console.log(data.mobile, res.data.pin)
-        AsyncStorage.setItem('mobileNumber', data.mobile);
-        navigation.navigate('otpverify');
-      } else{
-        console.log("false", res.message)
-          setUser({
+      mobile: user.mobileNumber,
+    };
+    await loginApi(data).then((res) => {
+      if (res.success === true) {
+        console.log(data.mobile, res.data.pin);
+        AsyncStorage.setItem("mobileNumber", data.mobile);
+        navigation.navigate("otpverify");
+      } else {
+        console.log("false", res.message);
+        setUser({
           ...user,
           mobileNumber: data.mobile,
-          error: res?.message !== '',
+          error: res?.message !== "",
           errorMessage: res?.message,
-        })
+        });
       }
-      setLoading(false)
-    })
+      setLoading(false);
+    });
   };
-  
+
   const handleInputSubmit = (nextField) => {
     // Focus on the next input field
     if (nextField) {
@@ -85,69 +98,139 @@ const Login = ({navigation}) => {
 
   return (
     <>
-     <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-    {loading ? (
-      <ActivityIndicator animating={true} size='large' color={theme.colors.blue} style={globalStyles.loading} />
-    ) : ''}
-    <View style={[styles.container, {paddingTop:20}, {paddingBottom: Platform.OS === "ios" ? 10: 0}]}>
-      <ScrollView contentContainerStyle={styles.contentContainer}>
-      <View style={styles.topContent}>
-        <View style={styles.pageHeading}>
-          <View style={styles.backButton}>
-            <Ionicons
-              name="arrow-back-outline"
-              color="#000"
-              size={20}
-              onPress={() => navigation.goBack()}
-            />
-          </View>
-          <View style={styles.textContainer}>
-            <Text variant="titleMedium" style={styles.textHeading}>
-              Log in
-            </Text>
-          </View>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        {loading ? (
+          <ActivityIndicator
+            animating={true}
+            size="large"
+            color={theme.colors.blue}
+            style={globalStyles.loading}
+          />
+        ) : (
+          ""
+        )}
+        <View
+          style={[
+            styles.container,
+            { paddingTop: 10 },
+            { paddingBottom: Platform.OS === "ios" ? 10 : 0 },
+          ]}
+        >
+          <ScrollView contentContainerStyle={styles.contentContainer}>
+            <View style={styles.topContent}>
+              <View style={styles.pageHeading}>
+                <View style={styles.backButton}>
+                  <Ionicons
+                    name="arrow-back-outline"
+                    color="#000"
+                    size={20}
+                    onPress={() => navigation.goBack()}
+                  />
+                </View>
+                <View style={styles.textContainer}>
+                  <Text variant="titleMedium" style={styles.textHeading}>
+                    Log in
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.formBox}>
+                <TextInput
+                  keyboardType="numeric"
+                  mode="flat"
+                  label="Mobile Number"
+                  value={user.mobileNumber}
+                  onChangeText={(text) =>
+                    handleInputChange("mobileNumber", text)
+                  }
+                  ref={(ref) => (mobileInputRef = ref)}
+                  onSubmitEditing={() => handleInputSubmit(emailInputRef)}
+                  error={user.error}
+                  outlineColor={theme.colors.gray}
+                  selectionColor={theme.colors.primary}
+                  activeOutlineColor={theme.colors.primary}
+                  style={styles.textInput}
+                />
+                {user.error &&
+                  user.errorMessage && ( // Display error message conditionally
+                    <Text style={{ color: "red" }}>{user.errorMessage}</Text>
+                  )}
+              </View>
+            </View>
+            <View style={styles.space}>
+              <View style={styles.bottomContent}>
+                <Text style={styles.text}>
+                  By selecting Agree and continue , I agree to Dynamic Layers{" "}
+                  <Text
+                    style={styles.linking}
+                    onPress={() => handleLinkPress("#3")}
+                  >
+                    {" "}
+                    Terms of Service
+                  </Text>
+                  ,
+                  <Text
+                    style={styles.linking}
+                    onPress={() => handleLinkPress("#1")}
+                  >
+                    {" "}
+                    Payments Terms of Service
+                  </Text>{" "}
+                  and{" "}
+                  <Text
+                    style={styles.linking}
+                    onPress={() => handleLinkPress("#2")}
+                  >
+                    {" "}
+                    Notification Policy
+                  </Text>{" "}
+                  and acknowledge the
+                  <Text
+                    style={styles.linking}
+                    onPress={() => handleLinkPress("#4")}
+                  >
+                    {" "}
+                    Privacy Policy{" "}
+                  </Text>
+                  .
+                </Text>
+                <Button
+                  labelStyle={styles.mainButton}
+                  buttonColor={theme.colors.blue}
+                  disabled={disable}
+                  loading={false}
+                  mode="contained"
+                  onPress={submitUser}
+                >
+                  Agree and continue
+                </Button>
+                <Text
+                  style={[
+                    styles.text,
+                    { textAlign: "center" },
+                    { marginTop: 8 },
+                  ]}
+                >
+                  Already have an account{" "}
+                  <Text
+                    style={[
+                      styles.linking,
+                      { textDecorationLine: "underline" },
+                      { paddingBottom: 0 },
+                    ]}
+                    onPress={() => navigation.navigate("register")}
+                  >
+                    Register
+                  </Text>{" "}
+                  here
+                </Text>
+              </View>
+            </View>
+          </ScrollView>
         </View>
-        <View style={styles.formBox}>
-      <TextInput
-      keyboardType="numeric"
-      mode="flat"
-      label="Mobile Number"
-      value={user.mobileNumber}
-      onChangeText={(text) => handleInputChange('mobileNumber', text)}
-      ref={(ref) => (mobileInputRef = ref)}
-      onSubmitEditing={() => handleInputSubmit(emailInputRef)}
-      error={user.error}
-      outlineColor={theme.colors.gray} 
-      selectionColor={theme.colors.primary} 
-      activeOutlineColor={theme.colors.primary} 
-      style={styles.textInput}
-    />
-    {user.error && user.errorMessage && ( // Display error message conditionally
-  <Text style={{ color: 'red' }}>{user.errorMessage}</Text>
-)}
-        </View>
-        </View>
-        <View style={styles.space}>
-  <View style={styles.bottomContent}>
-    <Text style={styles.text}>
-    By selecting Agree and continue , I agree to Dynamic Layers <Text style={styles.linking} onPress={()=>handleLinkPress('#3')}> Terms of Service</Text>,<Text style={styles.linking} onPress={()=>handleLinkPress('#1')}> Payments Terms of Service</Text>  and <Text style={styles.linking} onPress={()=>handleLinkPress('#2')}> Notification Policy</Text>  and acknowledge the<Text style={styles.linking} onPress={()=>handleLinkPress('#4')}>  Privacy Policy </Text>.
-    </Text>
-     <Button labelStyle={styles.mainButton}  buttonColor={theme.colors.blue}  disabled={disable}   loading={false} mode="contained" onPress={submitUser}>
-    Agree and continue
-  </Button>
-  <Text style={[styles.text, {textAlign: 'center'}, {marginTop: 8}]}>
-  Already have an account  {' '}
-  <Text style={[styles.linking, {textDecorationLine:'underline'}, {paddingBottom: 0}]}  onPress={()=> navigation.navigate('register')}>Register</Text>
-    {' '} here
-  </Text>
-  </View>
-  </View>
-      </ScrollView>
-    </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
     </>
   );
 };
@@ -161,21 +244,21 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flexGrow: 1,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     paddingHorizontal: 16,
   },
   pageHeading: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   textContainer: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
   },
   textHeading: {
     marginLeft: -30,
     fontSize: globalStyles.fonts.normalText,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   backButton: {
     marginRight: 8,
@@ -188,29 +271,29 @@ const styles = StyleSheet.create({
   },
   space: {
     flex: 1,
-    justifyContent: 'flex-end',
-    height: '100%',
+    justifyContent: "flex-end",
+    height: "100%",
   },
   bottomContent: {
     flex: 1,
-    justifyContent: 'flex-end',
-    marginTop: 10, 
+    justifyContent: "flex-end",
+    marginTop: 10,
   },
-  text:{
+  text: {
     fontSize: globalStyles.fonts.textSize,
-    marginBottom: 16
+    marginBottom: 16,
   },
-  linking:{
+  linking: {
     color: globalStyles.textColor.blueCOlor,
-    fontWeight: '700',
+    fontWeight: "700",
   },
-  mainButton :{
+  mainButton: {
     paddingVertical: 10,
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
-  textInput :{
-    width: '100%',
+  textInput: {
+    width: "100%",
     marginTop: 8,
     height: 56,
     backgroundColor: "#e5e5e88a",
