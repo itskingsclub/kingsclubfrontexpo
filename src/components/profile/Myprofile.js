@@ -10,7 +10,7 @@ import { UserContext } from '../../userDetail/Userdetail';
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Header from '../header/Header';
-import baseAddress from '../../service/baseAddress';
+import baseaddress from '../../service/baseAddress';
 
 const Myprofile = ({navigation}) => {
   const theme = useTheme();
@@ -142,7 +142,7 @@ const Myprofile = ({navigation}) => {
           <Icon onPress={uploadFile} name="pencil" color={globalStyles.backgroundColor.primaryBlue} size={15} style={{position:'absolute', bottom: 0, right:15, zIndex:99, backgroundColor: '#ffffffbd', padding:3, borderRadius:50}}/>
      {userDetail.profile != null ? (
        <Image
-       source={{ uri: `${baseAddress}/upload/${userDetail.profile}` }}
+       source={{ uri: `${baseaddress}/upload/${userDetail.profile}` }}
        style={{
           width: 70,
           height: 70,

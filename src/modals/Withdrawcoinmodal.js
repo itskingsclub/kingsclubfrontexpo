@@ -34,7 +34,7 @@ const Withdrawcoinmodal = ({ visible, hideModal }) => {
     });
   };
   const makePayment = () => {
-    if (userDetail.total_coin >= coin) {
+    if (userDetail.win_coin >= coin) {
     setLoading(true)
     // console.log(`Selected Radio Button: ${checked}, Coin Value: ${coin}`);
       data = {

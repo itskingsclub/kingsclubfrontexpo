@@ -49,7 +49,7 @@ const Createchallangemodal = ({ visiblemodal, hideModalChallange, setUpdateChall
     };
   
   
-    if (userDetail.total_coin >= coin) {
+    if (userDetail.game_coin >= coin) {
       setLoading(true);
   
       await createChallange(data)

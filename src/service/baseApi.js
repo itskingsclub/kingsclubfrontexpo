@@ -1,8 +1,8 @@
 import axios from 'axios'
-import baseAddress from './baseAddress';
+import baseaddress from './baseAddress'
 const APIKit = axios.create({
     // baseURL: "https://api-kings.vercel.app",
-    baseURL: baseAddress,
+    baseURL: baseaddress,
 })
 
 export default APIKit;
