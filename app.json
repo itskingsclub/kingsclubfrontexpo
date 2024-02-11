@@ -27,14 +27,18 @@
     "android": {
       "jsEngine": "jsc",
       "package": "relatedtoanysample.kingsclub",
-      "permissions": ["CAMERA_ROLL", "INTERNET"],
+      "permissions": [
+        "CAMERA_ROLL",
+        "INTERNET"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     },
     "extra": {
       "eas": {

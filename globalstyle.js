@@ -340,8 +340,9 @@ const globalStyles = StyleSheet.create({
   },
   bottomTabs: {
     backgroundColor: "#fff",
-    paddingVertical: 15,
+    paddingVertical: 8,
     paddingRight: 16,
+    paddingHorizontal: 16,
     borderTopWidth: 1,
     borderColor: "#00000026",
     borderStyle: "solid",

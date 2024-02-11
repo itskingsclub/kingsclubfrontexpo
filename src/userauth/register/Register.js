@@ -6,6 +6,7 @@ import {
   Linking,
   ScrollView,
   Platform,
+  Alert,
 } from "react-native";
 import globalStyles from "../../../globalstyle";
 import { TextInput, Text, Button, ActivityIndicator } from "react-native-paper";
@@ -13,6 +14,7 @@ import { useTheme } from "react-native-paper";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { registerApi } from "../../service/apicalls";
+import Toast from "react-native-root-toast";
 
 const Register = ({ navigation }) => {
   const theme = useTheme();
@@ -60,15 +62,32 @@ const Register = ({ navigation }) => {
     };
     await registerApi(data)
       .then((res) => {
-        console.log(res);
+        setLoading(false);
+        console.log("res", res);
+        Toast.show("res", {
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
+        });
         const otp = res.data.pin;
         console.log("otp", otp);
         AsyncStorage.setItem("mobileNumber", data.mobile);
-        setLoading(false);
         navigation.navigate("otpverify");
       })
       .catch((error) => {
-        console.log(error);
+        console.log("error", error);
+        setLoading(false);
+        Toast.show("error", {
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
+        });
       });
   };
 
