@@ -61,7 +61,8 @@ export async function createChallange(payload) {
 
 export async function myChallange(payload) {
   try {
-    const response = await APIKit.post(`/challenge/my-challenges`, payload);
+    const queryString = new URLSearchParams(payload).toString();
+    const response = await APIKit.post(`/challenge/my-challenges/?${queryString}`);
     return response.data;
   } catch (error) {
     return console.log(error);
@@ -76,9 +77,10 @@ export async function challange(id) {
   }
 }
 
-export async function getChallange() {
+export async function getChallange(payload) {
   try {
-    const response = await APIKit.get(`/challenge`);
+    const queryString = new URLSearchParams(payload).toString();
+    const response = await APIKit.get(`/challenge/?${queryString}`);
     return response.data;
   } catch (error) {
     return error;
@@ -109,9 +111,9 @@ export async function updateResult(payload) {
 }
 
 export async function myPayment(payload) {
-  console.log("payload", payload);
   try {
-    const response = await APIKit.post(`/payment/my-payments`, payload);
+    const queryString = new URLSearchParams(payload).toString();
+    const response = await APIKit.post(`/payment/my-payments/?${queryString}`);
     return response.data;
   } catch (error) {
     return console.log(error, payload);
