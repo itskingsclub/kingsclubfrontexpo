@@ -10,6 +10,7 @@ import { UserContext } from '../../userDetail/Userdetail';
 import Header from '../header/Header';
 import Createchallangemodal from '../../modals/Createchallangemodal';
 import Toast from 'react-native-root-toast';
+import ShowToast from '../../utility/ShowToast';
 
 
 const Gametable = ({ navigation }) => {
@@ -36,17 +37,6 @@ const Gametable = ({ navigation }) => {
     setVisiblemodal(false)
   }, [navigation, updateChallenge])
 
-
-  const showToast2 = (message) => {
-    Toast.show(message, {
-      duration: Toast.durations.LONG,
-      position: Toast.positions.BOTTOM,
-      shadow: true,
-      animation: true,
-      hideOnPress: true,
-      delay: 0,
-    });
-  };
 
   const refreshContent = async () => {
     setLoading(true);
@@ -87,7 +77,7 @@ const Gametable = ({ navigation }) => {
   const challangeFunction = async (data) => {
     if (data.challenge_status === 'Waiting') {
       if (data.creator === userDetail.id) {
-        showToast2("Creator can't join the table.");
+        ShowToast("Creator can't join the table.");
       } else {
         if (userDetail.game_coin >= data.amount) {
           const sendData = {
@@ -100,14 +90,18 @@ const Gametable = ({ navigation }) => {
             navigation.navigate('contest', { contestData: data });
           });
         } else {
-          showToast2("You Don't have sufficient Coin to join");
+          ShowToast("You Don't have sufficient Coin to join");
         }
       }
     } else if (data.challenge_status === 'Clear') {
-      // console.log("table clear")
+      ShowToast("Table Clear please select another one");
     }
     else {
-      navigation.navigate('contest', { contestData: data });
+      if (userDetail.id === data.creator || userDetail.id === data.joiner) {
+        navigation.navigate('contest', { contestData: data });
+      } else {
+        ShowToast("Table already join form another user");
+      }
     }
   };
   function determineResult(gameData, userId) {
@@ -150,7 +144,14 @@ const Gametable = ({ navigation }) => {
               <>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={globalStyles.scrollViewContent}>
                   {mychallengs.length > 0 ? mychallengs.map((data, i) => (
-                    <TouchableOpacity style={globalStyles.challangeBox} key={i}>
+                    <TouchableOpacity onPress={() => {
+                      if (["Processing", "Playing", "Review"].includes(data.challenge_status)) {
+                        navigation.navigate('contest', { contestData: data });
+                      } else {
+                        refreshContent();
+                        refreshContent2();
+                      }
+                    }} style={globalStyles.challangeBox} key={i}>
                       <View style={globalStyles.challangeBoxTop}>
                         <View style={globalStyles.chip}  >
                           <Text variant="labelMedium" >{data.id}</Text>
@@ -161,18 +162,9 @@ const Gametable = ({ navigation }) => {
                           <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{ overflow: 'hidden' }, { width: 100 }]}>Mukesh Jat ada adad das</Text>
                         </View>
                       </View>
-                      <TouchableOpacity onPress={() => {
-                        if (["Processing", "Playing", "Review"].includes(data.challenge_status)) {
-                          navigation.navigate('contest', { contestData: data });
-                        } else {
-                          refreshContent();
-                          refreshContent2();
-                        }
-                      }}
-                        style={[globalStyles.challangeBoxBottom, globalStyles.challangeBoxBottom2, { width: 360 }]}>
+                      <View style={[globalStyles.challangeBoxBottom, globalStyles.challangeBoxBottom2, { width: 360 }]}>
                         <Text variant="bodySmall" style={[globalStyles.width50, { textAlign: 'center' }, { paddingVertical: 5 }, { borderBottomLeftRadius: 8 }, { backgroundColor: '#FFE3A5' }]}>{data.challenge_status}</Text>
-                      </TouchableOpacity>
-
+                      </View>
                     </TouchableOpacity>
                   )) : (
                     <Text style={[{ color: theme.colors.primary }, { fontSize: globalStyles.fonts.fontSize16 }, { fontWeight: '700' }, { textAlign: 'center' }]} >Your Not playing any challenge yet</Text>

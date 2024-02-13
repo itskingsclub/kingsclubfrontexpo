@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native'; 
+import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native';
 import Home from './Home';
 import Wallet from './Wallet';
 import Contact from './Contact';
 const BottomNavigator = () => {
   const navigation = useNavigation();
-  
+
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'home', title: 'Home', focusedIcon: 'dots-grid', unfocusedIcon: 'dots-square'},
-    { key: 'mywallet', title: 'My Wallet', focusedIcon: 'wallet',unfocusedIcon: 'wallet-outline' },
+    { key: 'home', title: 'Home', focusedIcon: 'dots-grid', unfocusedIcon: 'dots-square' },
+    { key: 'mywallet', title: 'My Wallet', focusedIcon: 'wallet', unfocusedIcon: 'wallet-outline' },
     { key: 'contact', title: 'Contact Us', focusedIcon: 'plus-box', unfocusedIcon: 'plus' },
   ]);
 
@@ -21,7 +21,7 @@ const BottomNavigator = () => {
       case 'home':
         return <Home navigation={navigation} />; // Pass navigation prop to Home component
       case 'mywallet':
-        return <Wallet navigation={navigation}  icon = {true } />;
+        return <Wallet navigation={navigation} icon={true} />;
       case 'contact':
         return <Contact navigation={navigation} />;
       default:
@@ -43,15 +43,15 @@ const BottomNavigator = () => {
       shadowOpacity: 0.25,
       shadowRadius: 7,
       elevation: 5,
-      borderWidth: Platform.OS === 'ios' ? 0 : 1,
+      borderWidth: Platform.OS === 'ios' ? 0 : 0.2,
       borderStyle: 'solid',
       borderColor: '#000',
-      marginBottom: Platform.OS === 'ios' ? 25 : 0,
+      marginBottom: Platform.OS === 'ios' ? 0 : 0,
     },
   };
 
   return (
-    <BottomNavigation 
+    <BottomNavigation
       navigationState={{ index, routes }}
       onIndexChange={setIndex}
       renderScene={renderScene}

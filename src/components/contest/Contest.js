@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity, ScrollView, Image } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, ScrollView, RefreshControl } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -9,7 +9,7 @@ import { UserContext } from '../../userDetail/Userdetail';
 import { challange, getuser, updateChallange, updateResult } from '../../service/apicalls';
 import Toast from 'react-native-root-toast';
 import * as Clipboard from 'expo-clipboard';
-
+import ShowToast from '../../utility/ShowToast';
 const Contest = ({ route, navigation }) => {
   const { contestData } = route.params;
   const { userDetail, setUserDetail } = useContext(UserContext)
@@ -32,12 +32,22 @@ const Contest = ({ route, navigation }) => {
   const showResultModal = () => setResultModal(true);
   const hideResultModal = () => setResultModal(false);
   const hideModal = () => setVisible(false);
+  const [refreshing, setRefreshing] = React.useState(false);
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fatchContest()
+    ShowToast("start refresh")
+    setTimeout(() => {
+      setRefreshing(false);
+      ShowToast("stop refresh")
+    }, 2000);
+  }, []);
   const handleInputChange = (text) => {
     setRoomcode((prevRoomcode) => ({
       ...prevRoomcode,
       value: text,
-      error: text.length !== 7,
+      error: text.length !== 8,
     }));
   };
 
@@ -55,19 +65,6 @@ const Contest = ({ route, navigation }) => {
   useEffect(() => {
     fatchContest();
   }, [contestData])
-  useEffect(() => {
-    fatchContest();
-  }, [])
-  const showToast2 = (message) => {
-    Toast.show(message, {
-      duration: Toast.durations.LONG,
-      position: Toast.positions.BOTTOM,
-      shadow: true,
-      animation: true,
-      hideOnPress: true,
-      delay: 0,
-    });
-  };
 
   const submitcode = async () => {
     const sendData = {
@@ -83,7 +80,7 @@ const Contest = ({ route, navigation }) => {
         ...roomcode,
         update: true
       });
-      showToast2("Room Code Updates Successfully")
+      ShowToast("Room Code Updates Successfully")
     }).catch((error) => {
       console.log(error)
     })
@@ -92,8 +89,10 @@ const Contest = ({ route, navigation }) => {
     fatchContest()
   }
   const copyRoomCodeToClipboard = () => {
-    Clipboard.setString(contest.room_code);
-    showToast2("Room Code copied successfully!");
+    if (contest.room_code) {
+      Clipboard.setString(contest.room_code);
+      ShowToast("Room Code copied successfully!");
+    }
   };
   const submitChallange = async (status) => {
     setLoading(true);
@@ -110,7 +109,6 @@ const Contest = ({ route, navigation }) => {
       formData.append('joiner', userDetail.id);
       formData.append('joiner_result', status);
     }
-    console.log("formData", formData)
     try {
       const response = await updateResult(formData);
       console.log("res", response);
@@ -129,7 +127,8 @@ const Contest = ({ route, navigation }) => {
       <View style={globalStyles.container}>
         <Header title="Contest" navigation={navigation} />
         {contest &&
-          <ScrollView contentContainerStyle={[globalStyles.scrollContainer, globalStyles.scrollContainerNoContent]}>
+          <ScrollView refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} contentContainerStyle={[globalStyles.scrollContainer, globalStyles.scrollContainerNoContent]}>
             <View >
               <View style={globalStyles.challangesBox}>
                 <View style={globalStyles.challangeBoxTop}>

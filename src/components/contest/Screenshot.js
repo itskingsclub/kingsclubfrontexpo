@@ -9,6 +9,7 @@ import { updateResult } from '../../service/apicalls';
 import { UserContext } from '../../userDetail/Userdetail';
 import Toast from 'react-native-root-toast';
 import mime from 'mime';
+import ShowToast from '../../utility/ShowToast';
 
 const Screenshot = ({ navigation, route }) => {
   const { status, contest } = route.params;
@@ -26,7 +27,7 @@ const Screenshot = ({ navigation, route }) => {
 
   const showModal = () => {
     if (pickerResponse === null) {
-      showToast2("Please select screenshot first")
+      ShowToast("Please select screenshot first")
     } else {
       setVisible(true);
     }
@@ -34,23 +35,13 @@ const Screenshot = ({ navigation, route }) => {
   const hideModal = () => {
     setVisible(false)
   };
-  const showToast2 = (message) => {
-    Toast.show(message, {
-      duration: Toast.durations.LONG,
-      position: Toast.positions.BOTTOM,
-      shadow: true,
-      animation: true,
-      hideOnPress: true,
-      delay: 0,
-    });
-  };
 
   const handleDocumentSelection = async () => {
     try {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
       if (status !== 'granted') {
-        showToast2('Permission to access media library was denied');
+        ShowToast('Permission to access media library was denied');
         return;
       }
 

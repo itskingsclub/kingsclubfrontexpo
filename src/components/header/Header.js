@@ -33,7 +33,7 @@ const Header = ({ title, icon, navigation, color }) => {
           <Text style={[globalStyles.headerTitle, { color: color ? "#fff" : "#000" }]}>{title}</Text>
         </View>
         <Button icon="plus" buttonColor='#FFCE6D' textColor='#000' labelStyle={{ paddingVertical: 0 }} mode="contained" onPress={showModal}>
-          {userDetail.game_coin + userDetail.win_coin}
+          {userDetail.game_coin + userDetail.win_coin + userDetail.refer_coin}
         </Button>
       </View>
       <Addcoinmodal visible={visible} hideModal={hideModal} />

@@ -7,6 +7,7 @@ import { UserProvider } from "./src/userDetail/Userdetail";
 import AnimatedSplash from "./AnimatedBootSplash";
 import { useFonts } from "expo-font";
 import { enableFreeze } from "react-native-screens";
+import ScrollToTop from "./ScrollToTop";
 
 enableFreeze(true);
 export default function App() {

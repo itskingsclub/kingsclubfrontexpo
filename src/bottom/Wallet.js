@@ -24,7 +24,6 @@ const Wallet = ({ navigation, icon }) => {
   const { userDetail, setUserDetail } = useContext(UserContext);
   const [mypayment, setMypayment] = useState([])
   const [loading, setLoading] = useState(false)
-  console.log("userDetail", userDetail)
   useEffect(() => {
     setLoading(true)
     const data = {
