@@ -6,6 +6,7 @@ import { Button, Text, Modal, Portal, TextInput, useTheme, RadioButton, Activity
 import { getuser, withdrawal } from '../service/apicalls';
 import { UserContext } from '../userDetail/Userdetail';
 import Toast from 'react-native-root-toast';
+import ShowToast from '../utility/ShowToast';
 
 const Withdrawcoinmodal = ({ visible, hideModal }) => {
   const theme = useTheme();
@@ -23,16 +24,6 @@ const Withdrawcoinmodal = ({ visible, hideModal }) => {
     }
     setCoin(text);
   };
-  const showToast2 = (message) => {
-    Toast.show(message, {
-      duration: Toast.durations.LONG,
-      position: Toast.positions.BOTTOM,
-      shadow: true,
-      animation: true,
-      hideOnPress: true,
-      delay: 0,
-    });
-  };
   const makePayment = () => {
     if (userDetail.win_coin >= coin) {
       setLoading(true)
@@ -44,14 +35,13 @@ const Withdrawcoinmodal = ({ visible, hideModal }) => {
       withdrawal(data).then((res) => {
         setLoading(false)
         hideModal();
-        console.log("res",)
-        showToast2("Coin Remove Successfully")
+        ShowToast("Coin Remove Successfully")
         getuser(userDetail.id).then((res) => {
           setUserDetail(res.data)
         })
       })
     } else {
-      showToast2("You Don't have sufficient Coin to withdraw");
+      ShowToast("You Don't have sufficient Coin to withdraw");
     }
   };
 

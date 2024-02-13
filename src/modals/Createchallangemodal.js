@@ -6,6 +6,7 @@ import { Button, Text, Modal, Portal, TextInput, useTheme, RadioButton, Activity
 import { createChallange, getuser } from '../service/apicalls';
 import { UserContext } from '../userDetail/Userdetail';
 import Toast from 'react-native-root-toast';
+import ShowToast from '../utility/ShowToast';
 
 const Createchallangemodal = ({ visiblemodal, hideModalChallange, setUpdateChallenge }) => {
   const theme = useTheme();
@@ -31,16 +32,6 @@ const Createchallangemodal = ({ visiblemodal, hideModalChallange, setUpdateChall
     setCoin(text);
   };
 
-  const showToast2 = (message) => {
-    Toast.show(message, {
-      duration: Toast.durations.LONG,
-      position: Toast.positions.BOTTOM,
-      shadow: true,
-      animation: true,
-      hideOnPress: true,
-      delay: 0,
-    });
-  };
 
   const makePayment = async () => {
     const data = {
@@ -56,7 +47,7 @@ const Createchallangemodal = ({ visiblemodal, hideModalChallange, setUpdateChall
         .then((res) => {
           hideModalChallange();
           setLoading(false);
-          showToast2("Challenge created successfully!");
+          ShowToast("Challenge created successfully!");
           setUpdateChallenge(true)
           getuser(userDetail.id)
             .then((res) => {
@@ -70,7 +61,7 @@ const Createchallangemodal = ({ visiblemodal, hideModalChallange, setUpdateChall
           console.log(error);
         });
     } else {
-      showToast2("You Don't have sufficient Coin to create table");
+      ShowToast("You Don't have sufficient Coin to create table");
     }
   };
 
