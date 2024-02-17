@@ -2,12 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { PaperProvider } from "react-native-paper";
 import theme from "./theme";
-import Appnavigator from "./Appnavigator";
 import { UserProvider } from "./src/userDetail/Userdetail";
 import AnimatedSplash from "./AnimatedBootSplash";
 import { useFonts } from "expo-font";
 import { enableFreeze } from "react-native-screens";
-import ScrollToTop from "./ScrollToTop";
 
 enableFreeze(true);
 export default function App() {

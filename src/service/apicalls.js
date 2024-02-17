@@ -125,15 +125,27 @@ export async function deposit(payload) {
     const response = await APIKit.post(`/payment/deposit`, payload);
     return response.data;
   } catch (error) {
-    return error;
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { error: 'No response from the server' };
+    } else {
+      return { error: 'Request setup error' };
+    }
   }
 }
 
 export async function withdrawal(payload) {
   try {
-    const response = await APIKit.post(`/payment/withdrawal`, payload);
+    const response = await APIKit.post(`/payment/withdraw`, payload);
     return response.data;
   } catch (error) {
-    return error;
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { error: 'No response from the server' };
+    } else {
+      return { error: 'Request setup error' };
+    }
   }
 }

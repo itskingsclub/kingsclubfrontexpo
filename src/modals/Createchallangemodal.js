@@ -5,7 +5,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Button, Text, Modal, Portal, TextInput, useTheme, RadioButton, ActivityIndicator } from 'react-native-paper';
 import { createChallange, getuser } from '../service/apicalls';
 import { UserContext } from '../userDetail/Userdetail';
-import Toast from 'react-native-root-toast';
 import ShowToast from '../utility/ShowToast';
 
 const Createchallangemodal = ({ visiblemodal, hideModalChallange, setUpdateChallenge }) => {
@@ -22,8 +21,8 @@ const Createchallangemodal = ({ visiblemodal, hideModalChallange, setUpdateChall
       setError("Please enter an amount.");
     } else if (inputNumber < 0) {
       setError("Please enter a valid amount.");
-    } else if (inputNumber !== 0 && inputNumber % 50 !== 0) {
-      setError("Coin must be a multiple of 50.");
+    } else if (inputNumber !== 0 && inputNumber % 10 !== 0) {
+      setError("Coin must be a multiple of 10.");
     } else if (inputNumber > totalCoin) {
       setError("You do not have sufficient coins to play");
     } else {
@@ -39,31 +38,35 @@ const Createchallangemodal = ({ visiblemodal, hideModalChallange, setUpdateChall
       creator: userDetail.id
     };
 
-
     if (userDetail.game_coin >= coin) {
       setLoading(true);
 
-      await createChallange(data)
-        .then((res) => {
-          hideModalChallange();
-          setLoading(false);
-          ShowToast("Challenge created successfully!");
-          setUpdateChallenge(true)
-          getuser(userDetail.id)
-            .then((res) => {
-              setUserDetail(res.data);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      try {
+        const res = await createChallange(data);
+
+        hideModalChallange();
+        setLoading(false);
+        ShowToast("Challenge created successfully!");
+
+        // Move setUpdateChallenge inside the .then() block
+        setUpdateChallenge(true);
+
+        getuser(userDetail.id)
+          .then((res) => {
+            setUserDetail(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
     } else {
       ShowToast("You Don't have sufficient Coin to create table");
     }
   };
+
 
 
   const listItems = [

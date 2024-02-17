@@ -7,9 +7,9 @@ import { Button, useTheme, Text, Chip, Avatar, List, Portal, Modal, TextInput, A
 import Header from '../header/Header';
 import { UserContext } from '../../userDetail/Userdetail';
 import { challange, getuser, updateChallange, updateResult } from '../../service/apicalls';
-import Toast from 'react-native-root-toast';
 import * as Clipboard from 'expo-clipboard';
 import ShowToast from '../../utility/ShowToast';
+
 const Contest = ({ route, navigation }) => {
   const { contestData } = route.params;
   const { userDetail, setUserDetail } = useContext(UserContext)
@@ -43,6 +43,7 @@ const Contest = ({ route, navigation }) => {
       ShowToast("stop refresh")
     }, 2000);
   }, []);
+
   const handleInputChange = (text) => {
     setRoomcode((prevRoomcode) => ({
       ...prevRoomcode,

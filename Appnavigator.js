@@ -9,7 +9,6 @@ import { loginApi } from "./src/service/apicalls";
 import Otpverify from "./src/userauth/otpverify/Otpverify";
 import Login from "./src/userauth/login/Login";
 import Gametable from "./src/components/gametable/Gametable";
-import Test from "./src/components/gametable/Test";
 import Contest from "./src/components/contest/Contest";
 import Screenshot from "./src/components/contest/Screenshot";
 import Myprofile from "./src/components/profile/Myprofile";
@@ -18,6 +17,7 @@ import Wallet from "./src/bottom/Wallet";
 import Leaderboard from "./src/components/leaderboard/Leaderboard";
 import Settings from "./src/components/setting/Settings";
 import Termscondition from "./src/components/setting/Termscondition";
+import Addcoin from "./src/components/payment/Addcoin";
 const Stack = createStackNavigator();
 
 const AppNavigator = ({ user }) => {
@@ -42,11 +42,6 @@ const AppNavigator = ({ user }) => {
         <Stack.Screen
           name="parent"
           component={Parent}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="test"
-          component={Test}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -87,6 +82,11 @@ const AppNavigator = ({ user }) => {
         <Stack.Screen
           name="termscondition"
           component={Termscondition}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="addcoin"
+          component={Addcoin}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
