@@ -12,9 +12,6 @@ const Header = ({ title, icon, navigation, color }) => {
   const theme = useTheme();
   const colorScheme = Appearance.getColorScheme();
   const { userDetail } = useContext(UserContext);
-  const [visible, setVisible] = useState(false); // Include state for the modal
-  const showModal = () => setVisible(true); // Function to open the modal
-  const hideModal = () => setVisible(false);
   return (
     <>
       <View style={globalStyles.topMobile}></View>
@@ -32,12 +29,10 @@ const Header = ({ title, icon, navigation, color }) => {
           }
           <Text style={[globalStyles.headerTitle, { color: color ? "#fff" : "#000" }]}>{title}</Text>
         </View>
-        <Button icon="plus" buttonColor='#FFCE6D' textColor='#000' labelStyle={{ paddingVertical: 0 }} mode="contained" onPress={showModal}>
+        <Button icon="plus" buttonColor='#FFCE6D' textColor='#000' labelStyle={{ paddingVertical: 0 }} mode="contained" onPress={() => navigation.navigate("paymentdetail")}>
           {userDetail.game_coin + userDetail.win_coin + userDetail.refer_coin}
         </Button>
       </View>
-      <Addcoinmodal visible={visible} hideModal={hideModal} />
-      {/* <Addcoin /> */}
     </>
   )
 }

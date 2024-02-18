@@ -33,7 +33,13 @@ export async function getuser(id) {
     const response = await APIKit.get(`/user/${id}`);
     return response.data;
   } catch (error) {
-    return console.log(error);
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { error: 'No response from the server' };
+    } else {
+      return { error: 'Request setup error' };
+    }
   }
 }
 
@@ -122,7 +128,11 @@ export async function myPayment(payload) {
 
 export async function deposit(payload) {
   try {
-    const response = await APIKit.post(`/payment/deposit`, payload);
+    const response = await APIKit.post(`/payment/deposit`, payload, {
+      headers: {
+        "Content-Type": false,
+      },
+    });
     return response.data;
   } catch (error) {
     if (error.response) {
