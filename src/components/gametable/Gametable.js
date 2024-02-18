@@ -9,7 +9,6 @@ import { updateChallange, getChallange, myChallange, getuser } from '../../servi
 import { UserContext } from '../../userDetail/Userdetail';
 import Header from '../header/Header';
 import Createchallangemodal from '../../modals/Createchallangemodal';
-import Toast from 'react-native-root-toast';
 import ShowToast from '../../utility/ShowToast';
 
 
@@ -31,10 +30,12 @@ const Gametable = ({ navigation }) => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
   useEffect(() => {
     refreshContent();
     refreshContent2();
     setVisiblemodal(false)
+    setUpdateChallenge(false)
   }, [navigation, updateChallenge])
 
 
@@ -88,6 +89,8 @@ const Gametable = ({ navigation }) => {
           };
           await updateChallange(sendData).then((res) => {
             navigation.navigate('contest', { contestData: data });
+            refreshContent()
+            refreshContent2()
           });
         } else {
           ShowToast("You Don't have sufficient Coin to join");
@@ -99,6 +102,7 @@ const Gametable = ({ navigation }) => {
     else {
       if (userDetail.id === data.creator || userDetail.id === data.joiner) {
         navigation.navigate('contest', { contestData: data });
+
       } else {
         ShowToast("Table already join form another user");
       }
@@ -154,7 +158,7 @@ const Gametable = ({ navigation }) => {
                     }} style={globalStyles.challangeBox} key={i}>
                       <View style={globalStyles.challangeBoxTop}>
                         <View style={globalStyles.chip}  >
-                          <Text variant="labelMedium" >{data.id}</Text>
+                          <Text variant="labelMedium" >Winning: {(data.amount - (data.amount * 10) / 100) * 2}</Text>
                         </View>
                         <Text variant="labelMedium" textColor={theme.colors.primary}> {data.challenge_status === "Clear" ? "Challange Completed" : "Challenge Accepted"}</Text>
                         <View style={[globalStyles.displayRowCenter, { gap: 10 }]}>
@@ -163,7 +167,7 @@ const Gametable = ({ navigation }) => {
                         </View>
                       </View>
                       <View style={[globalStyles.challangeBoxBottom, globalStyles.challangeBoxBottom2, { width: 360 }]}>
-                        <Text variant="bodySmall" style={[globalStyles.width50, { textAlign: 'center' }, { paddingVertical: 5 }, { borderBottomLeftRadius: 8 }, { backgroundColor: '#FFE3A5' }]}>{data.challenge_status}</Text>
+                        <Text variant="bodySmall" style={[globalStyles.width50, { textAlign: 'center' }, { paddingVertical: 5 }, { borderBottomLeftRadius: 8 }, { backgroundColor: '#FFE3A5' }]}>{data.challenge_status === "Clear" ? determineResult(data, userDetail.id) : data.challenge_status}</Text>
                       </View>
                     </TouchableOpacity>
                   )) : (

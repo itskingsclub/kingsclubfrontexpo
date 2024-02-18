@@ -35,7 +35,7 @@ const AnimatedSplash = () => {
                 source={require("./assets/images/logo.png")} // Adjust the path accordingly
                 style={{ width: 200, height: 200 }} // Adjust the dimensions accordingly
               />
-              <Text style={{ fontSize: 24, marginTop: 16 }}>Kings CLub</Text>
+              <Text style={{ fontSize: 24, marginTop: 16 }}>Kings Club</Text>
               <ActivityIndicator size="large" style={{ marginTop: 16 }} />
               <Text>Loading...</Text>
             </View>

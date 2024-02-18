@@ -29,16 +29,22 @@ const Addcoinmodal = ({ visible, hideModal }) => {
     // console.log(`Selected Radio Button: ${checked}, Coin Value: ${coin}`);
     data = {
       user_id: userDetail.id,
-      amount: Number(coin)
+      amountt: Number(coin)
     }
     deposit(data).then((res) => {
+      if (res.success) {
+        console.log("res", res)
+        ShowToast(res?.message)
+        console.log(res)
+        getuser(userDetail.id).then((res) => {
+          setUserDetail(res.data)
+        })
+      } else {
+        console.log("err", res)
+        ShowToast(res?.message)
+      }
       setLoading(false)
       hideModal();
-      ShowToast("Coin Added Successfully")
-      console.log(res)
-      getuser(userDetail.id).then((res) => {
-        setUserDetail(res.data)
-      })
     })
   };
 

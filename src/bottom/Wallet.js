@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity, ScrollView, Image, KeyboardAvoidingView, Platform } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, ScrollView, Image, KeyboardAvoidingView, Platform, RefreshControl } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import globalStyles from '../../globalstyle';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -10,6 +10,7 @@ import { getuser, myPayment, withdrawal } from '../service/apicalls';
 import Addcoinmodal from '../modals/Addcoinmodal';
 import Withdrawcoinmodal from '../modals/Withdrawcoinmodal'
 import Header from '../components/header/Header';
+import ShowToast from '../utility/ShowToast';
 
 const Wallet = ({ navigation, icon }) => {
   // const icon = icon.params?.icon
@@ -24,7 +25,20 @@ const Wallet = ({ navigation, icon }) => {
   const { userDetail, setUserDetail } = useContext(UserContext);
   const [mypayment, setMypayment] = useState([])
   const [loading, setLoading] = useState(false)
-  useEffect(() => {
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fatchContest()
+    ShowToast("start refresh")
+    console.log("start refresh")
+    setTimeout(() => {
+      setRefreshing(false);
+      ShowToast("stop refresh")
+    }, 2000);
+  }, []);
+
+  const fatchContest = () => {
     setLoading(true)
     const data = {
       id: userDetail.id,
@@ -34,10 +48,13 @@ const Wallet = ({ navigation, icon }) => {
       order: 'DESC',
     }
     myPayment(data).then((res) => {
-      setMypayment(res.data.payemnts)
+      setMypayment(res.data.payments)
       setLoading(false)
-      console.log(res.data)
     })
+  }
+
+  useEffect(() => {
+    fatchContest()
   }, [userDetail])
 
   const formatDate = (dateString) => {
@@ -69,6 +86,7 @@ const Wallet = ({ navigation, icon }) => {
       return formatDate(dateTimeString);
     }
   };
+
   return (
     <>
       <Addcoinmodal visible={visible} hideModal={hideModal} />
@@ -125,7 +143,7 @@ const Wallet = ({ navigation, icon }) => {
       <Text variant="bodySmall" style={[{color:theme.colors.whiteColor}, {textAlign: 'center'}]}>( Refer  Commission Coin = 100.00) </Text>
       </View> */}
           <View style={globalStyles.displayRowbetween}>
-            <Button onPress={showModal} style={[{ borderRadius: 5 }, { width: '41%' }]} buttonColor={theme.colors.greenLightColor} textColor='#000' mode="contained" >
+            <Button onPress={() => navigation.navigate("addcoin")} style={[{ borderRadius: 5 }, { width: '41%' }]} buttonColor={theme.colors.greenLightColor} textColor='#000' mode="contained" >
               Add Coin
             </Button>
             <Button onPress={showModalWithdraw} style={[{ borderRadius: 5 }, { width: '57%' }]} buttonColor={theme.colors.redLightColor} textColor='#000' mode="contained" >
@@ -134,7 +152,8 @@ const Wallet = ({ navigation, icon }) => {
           </View>
           <Text style={[{ color: theme.colors.primary }, { fontSize: globalStyles.fonts.fontSize18 }, { fontWeight: '700' }]} >Transition History</Text>
         </View>
-        <ScrollView>
+        <ScrollView refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View>
             {loading ? (
               <ActivityIndicator animating={true} size='large' color={globalStyles.backgroundColor.primaryBlue} />

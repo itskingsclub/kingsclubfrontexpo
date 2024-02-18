@@ -5,7 +5,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Button, Text, Modal, Portal, TextInput, useTheme, RadioButton, ActivityIndicator } from 'react-native-paper';
 import { getuser, withdrawal } from '../service/apicalls';
 import { UserContext } from '../userDetail/Userdetail';
-import Toast from 'react-native-root-toast';
 import ShowToast from '../utility/ShowToast';
 
 const Withdrawcoinmodal = ({ visible, hideModal }) => {
@@ -17,7 +16,7 @@ const Withdrawcoinmodal = ({ visible, hideModal }) => {
   const [loading, setLoading] = useState(false)
 
   const handleInputChange = (text) => {
-    if (text !== '' && (parseInt(text) % 50 === 0 && parseInt(text) !== 0)) {
+    if (text !== '') {
       setError(false);
     } else {
       setError(true);
@@ -25,24 +24,28 @@ const Withdrawcoinmodal = ({ visible, hideModal }) => {
     setCoin(text);
   };
   const makePayment = () => {
-    if (userDetail.win_coin >= coin) {
-      setLoading(true)
-      // console.log(`Selected Radio Button: ${checked}, Coin Value: ${coin}`);
-      data = {
-        user_id: userDetail.id,
-        amount: Number(coin)
-      }
-      withdrawal(data).then((res) => {
-        setLoading(false)
-        hideModal();
-        ShowToast("Coin Remove Successfully")
+    // if (userDetail.win_coin >= coin) {
+    setLoading(true)
+    // console.log(`Selected Radio Button: ${checked}, Coin Value: ${coin}`);
+    data = {
+      user_id: userDetail.id,
+      amount: Number(coin)
+    }
+    withdrawal(data).then((res) => {
+      if (res.status) {
+        ShowToast(res?.message)
         getuser(userDetail.id).then((res) => {
           setUserDetail(res.data)
         })
-      })
-    } else {
-      ShowToast("You Don't have sufficient Coin to withdraw");
-    }
+      } else {
+        ShowToast(res?.message)
+      }
+      setLoading(false)
+      hideModal();
+    })
+    // } else {
+    //   ShowToast("You Don't have sufficient Coin to withdraw");
+    // }
   };
 
   return (
