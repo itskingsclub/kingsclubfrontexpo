@@ -18,6 +18,7 @@ import Leaderboard from "./src/components/leaderboard/Leaderboard";
 import Settings from "./src/components/setting/Settings";
 import Termscondition from "./src/components/setting/Termscondition";
 import Addcoin from "./src/components/payment/Addcoin";
+import Paymentdetail from "./src/components/payment/Paymentdetail";
 const Stack = createStackNavigator();
 
 const AppNavigator = ({ user }) => {
@@ -87,6 +88,11 @@ const AppNavigator = ({ user }) => {
         <Stack.Screen
           name="addcoin"
           component={Addcoin}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="paymentdetail"
+          component={Paymentdetail}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

@@ -7,19 +7,13 @@ import { ActivityIndicator } from 'react-native-paper';
 import { Text, useTheme, Button } from 'react-native-paper';
 import { UserContext } from '../userDetail/Userdetail';
 import { getuser, myPayment, withdrawal } from '../service/apicalls';
-import Addcoinmodal from '../modals/Addcoinmodal';
 import Withdrawcoinmodal from '../modals/Withdrawcoinmodal'
 import Header from '../components/header/Header';
 import ShowToast from '../utility/ShowToast';
 
 const Wallet = ({ navigation, icon }) => {
-  // const icon = icon.params?.icon
-  // console.log("icon", icon)
   const theme = useTheme();
-  const [visible, setVisible] = useState(false);
   const [visibleWithdraw, setVisibleWithdraw] = useState(false);
-  const showModal = () => setVisible(true); // Function to open the modal
-  const hideModal = () => setVisible(false);
   const showModalWithdraw = () => setVisibleWithdraw(true); // Function to open the modal
   const hideModalWithdraw = () => setVisibleWithdraw(false);
   const { userDetail, setUserDetail } = useContext(UserContext);
@@ -30,15 +24,13 @@ const Wallet = ({ navigation, icon }) => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     fatchContest()
-    ShowToast("start refresh")
-    console.log("start refresh")
     setTimeout(() => {
       setRefreshing(false);
-      ShowToast("stop refresh")
     }, 2000);
   }, []);
 
   const fatchContest = () => {
+    console.log("fatch")
     setLoading(true)
     const data = {
       id: userDetail.id,
@@ -49,13 +41,24 @@ const Wallet = ({ navigation, icon }) => {
     }
     myPayment(data).then((res) => {
       setMypayment(res.data.payments)
+      getuser(userDetail.id).then((res) => {
+        if (res.success) {
+          setUserDetail(res.data)
+          ShowToast(res.message)
+        } else {
+          ShowToast(res.message)
+        }
+      })
       setLoading(false)
     })
   }
 
   useEffect(() => {
-    fatchContest()
-  }, [userDetail])
+    const unsubscribeFocus = navigation.addListener('focus', () => {
+      fatchContest();
+    });
+    return unsubscribeFocus;
+  }, [navigation, userDetail]);
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -89,7 +92,6 @@ const Wallet = ({ navigation, icon }) => {
 
   return (
     <>
-      <Addcoinmodal visible={visible} hideModal={hideModal} />
       <Withdrawcoinmodal visible={visibleWithdraw} hideModal={hideModalWithdraw} />
       <KeyboardAvoidingView
         style={globalStyles.container}
@@ -139,11 +141,8 @@ const Wallet = ({ navigation, icon }) => {
               </View>
             </View>
           </View>
-          {/* <View style={styles.playGameBox}>
-      <Text variant="bodySmall" style={[{color:theme.colors.whiteColor}, {textAlign: 'center'}]}>( Refer  Commission Coin = 100.00) </Text>
-      </View> */}
           <View style={globalStyles.displayRowbetween}>
-            <Button onPress={() => navigation.navigate("addcoin")} style={[{ borderRadius: 5 }, { width: '41%' }]} buttonColor={theme.colors.greenLightColor} textColor='#000' mode="contained" >
+            <Button onPress={() => navigation.navigate("paymentdetail")} style={[{ borderRadius: 5 }, { width: '41%' }]} buttonColor={theme.colors.greenLightColor} textColor='#000' mode="contained" >
               Add Coin
             </Button>
             <Button onPress={showModalWithdraw} style={[{ borderRadius: 5 }, { width: '57%' }]} buttonColor={theme.colors.redLightColor} textColor='#000' mode="contained" >

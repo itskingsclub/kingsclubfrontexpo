@@ -38,33 +38,33 @@ const Createchallangemodal = ({ visiblemodal, hideModalChallange, setUpdateChall
       creator: userDetail.id
     };
 
-    if (userDetail.game_coin >= coin) {
-      setLoading(true);
+    // if (userDetail.game_coin >= coin) {
+    setLoading(true);
 
-      try {
-        const res = await createChallange(data);
+    try {
+      const res = await createChallange(data);
 
-        hideModalChallange();
-        setLoading(false);
-        ShowToast("Challenge created successfully!");
+      hideModalChallange();
+      setLoading(false);
+      ShowToast("Challenge created successfully!");
 
-        // Move setUpdateChallenge inside the .then() block
-        setUpdateChallenge(true);
+      // Move setUpdateChallenge inside the .then() block
+      setUpdateChallenge(true);
 
-        getuser(userDetail.id)
-          .then((res) => {
-            setUserDetail(res.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-      }
-    } else {
-      ShowToast("You Don't have sufficient Coin to create table");
+      getuser(userDetail.id)
+        .then((res) => {
+          setUserDetail(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
     }
+    // } else {
+    //   ShowToast("You Don't have sufficient Coin to create table");
+    // }
   };
 
 
