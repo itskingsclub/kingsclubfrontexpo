@@ -76,7 +76,7 @@ const Paymentdetail = ({ navigation }) => {
                     </View>
                 </ScrollView>
                 <View style={globalStyles.displayRowbetween}>
-                    <Button style={[{ borderRadius: 0 }, { width: '100%' }, { backgroundColor: '#CBFFC5' }]} textColor='#000' mode="contained" onPress={() => navigation.navigate("addcoin")}>
+                    <Button style={[{ borderRadius: 0 }, { width: '100%' }, { backgroundColor: '#CBFFC5' }]} textColor='#000' mode="contained" onPress={() => navigation.navigate("depositcoin")}>
                         Continue
                     </Button>
                 </View>

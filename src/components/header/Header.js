@@ -10,7 +10,6 @@ import { UserContext } from '../../userDetail/Userdetail'
 
 const Header = ({ title, icon, navigation, color }) => {
   const theme = useTheme();
-  const colorScheme = Appearance.getColorScheme();
   const { userDetail } = useContext(UserContext);
   return (
     <>
