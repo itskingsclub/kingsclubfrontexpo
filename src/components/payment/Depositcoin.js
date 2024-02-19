@@ -9,7 +9,7 @@ import ShowToast from '../../utility/ShowToast';
 import * as ImagePicker from 'expo-image-picker';
 import { ScrollView } from 'react-native-gesture-handler';
 
-const Addcoin = ({ navigation }) => {
+const Depositcoin = ({ navigation }) => {
     const theme = useTheme();
     const { userDetail, setUserDetail } = useContext(UserContext);
     const [coin, setCoin] = useState('100');
@@ -115,7 +115,7 @@ const Addcoin = ({ navigation }) => {
     )
 }
 
-export default Addcoin
+export default Depositcoin
 
 
 const styles = StyleSheet.create({

@@ -44,9 +44,9 @@ const Wallet = ({ navigation, icon }) => {
       getuser(userDetail.id).then((res) => {
         if (res.success) {
           setUserDetail(res.data)
-          ShowToast(res.message)
+          // ShowToast(res.message)
         } else {
-          ShowToast(res.message)
+          // ShowToast(res.message)
         }
       })
       setLoading(false)
@@ -145,7 +145,7 @@ const Wallet = ({ navigation, icon }) => {
             <Button onPress={() => navigation.navigate("paymentdetail")} style={[{ borderRadius: 5 }, { width: '41%' }]} buttonColor={theme.colors.greenLightColor} textColor='#000' mode="contained" >
               Add Coin
             </Button>
-            <Button onPress={showModalWithdraw} style={[{ borderRadius: 5 }, { width: '57%' }]} buttonColor={theme.colors.redLightColor} textColor='#000' mode="contained" >
+            <Button onPress={() => navigation.navigate("withdrawcoin")} style={[{ borderRadius: 5 }, { width: '57%' }]} buttonColor={theme.colors.redLightColor} textColor='#000' mode="contained" >
               Withdraw Coin
             </Button>
           </View>

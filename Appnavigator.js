@@ -17,8 +17,9 @@ import Wallet from "./src/bottom/Wallet";
 import Leaderboard from "./src/components/leaderboard/Leaderboard";
 import Settings from "./src/components/setting/Settings";
 import Termscondition from "./src/components/setting/Termscondition";
-import Addcoin from "./src/components/payment/Addcoin";
 import Paymentdetail from "./src/components/payment/Paymentdetail";
+import Depositcoin from "./src/components/payment/Depositcoin";
+import Withdrawcoin from "./src/components/payment/Withdrawcoin";
 const Stack = createStackNavigator();
 
 const AppNavigator = ({ user }) => {
@@ -86,8 +87,13 @@ const AppNavigator = ({ user }) => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="addcoin"
-          component={Addcoin}
+          name="depositcoin"
+          component={Depositcoin}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="withdrawcoin"
+          component={Withdrawcoin}
           options={{ headerShown: false }}
         />
         <Stack.Screen
