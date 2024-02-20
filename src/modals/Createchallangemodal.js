@@ -13,7 +13,7 @@ const Createchallangemodal = ({ visiblemodal, hideModalChallange, setUpdateChall
   const [loading, setLoading] = useState(false);
   const [coin, setCoin] = useState('100');
   const [error, setError] = useState("");
-
+  console.log("setUpdateChallenge2", setUpdateChallenge)
   const handleInputChange = (text) => {
     const inputNumber = parseInt(text);
     const totalCoin = userDetail.total_coin;
@@ -30,41 +30,33 @@ const Createchallangemodal = ({ visiblemodal, hideModalChallange, setUpdateChall
     }
     setCoin(text);
   };
+  useEffect(() => {
+    setUpdateChallenge(true)
+  }, [])
 
 
   const makePayment = async () => {
+    setLoading(true);
     const data = {
       amount: Number(coin),
       creator: userDetail.id
     };
 
-    // if (userDetail.game_coin >= coin) {
-    setLoading(true);
-
-    try {
-      const res = await createChallange(data);
-
+    createChallange(data).then((res) => {
+      if (res.status) {
+        setLoading(false);
+        ShowToast(res?.message);
+        setUpdateChallenge(true)
+        getuser(userDetail.id)
+          .then((res) => {
+            setUserDetail(res.data);
+          })
+      } else {
+        ShowToast(res?.message);
+      }
       hideModalChallange();
       setLoading(false);
-      ShowToast("Challenge created successfully!");
-
-      // Move setUpdateChallenge inside the .then() block
-      setUpdateChallenge(true);
-
-      getuser(userDetail.id)
-        .then((res) => {
-          setUserDetail(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-    // } else {
-    //   ShowToast("You Don't have sufficient Coin to create table");
-    // }
+    })
   };
 
 

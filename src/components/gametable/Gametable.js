@@ -5,7 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import globalStyles from '../../../globalstyle';
 import { Button, useTheme, Text, Chip, Avatar, ActivityIndicator } from 'react-native-paper';
 import Addcoinmodal from '../../modals/Addcoinmodal';
-import { updateChallange, getChallange, myChallange, getuser } from '../../service/apicalls';
+import { updateChallange, getChallange, myChallange, getuser, acceptChallange } from '../../service/apicalls';
 import { UserContext } from '../../userDetail/Userdetail';
 import Header from '../header/Header';
 import Createchallangemodal from '../../modals/Createchallangemodal';
@@ -35,9 +35,9 @@ const Gametable = ({ navigation }) => {
     refreshContent();
     refreshContent2();
     setVisiblemodal(false)
-    setUpdateChallenge(false)
   }, [navigation, updateChallenge])
 
+  console.log("updateChallenge", updateChallenge)
 
   const refreshContent = async () => {
     setLoading(true);
@@ -80,15 +80,20 @@ const Gametable = ({ navigation }) => {
       if (data.creator === userDetail.id) {
         ShowToast("Creator can't join the table.");
       } else {
-        if (userDetail.game_coin >= data.amount) {
+        if (userDetail.game_coin + userDetail.win_coin >= data.amount) {
           const sendData = {
             id: data.id,
             joiner: userDetail.id,
             challenge_status: "Processing",
             updated_by: userDetail.id
           };
-          await updateChallange(sendData).then((res) => {
-            navigation.navigate('contest', { contestData: data });
+          await acceptChallange(sendData).then((res) => {
+            if (res.success) {
+              ShowToast(res.message)
+              navigation.navigate('contest', { contestData: data });
+            } else {
+              ShowToast(res.message)
+            }
             refreshContent()
             refreshContent2()
           });

@@ -62,7 +62,20 @@ const Withdrawcoin = ({ navigation }) => {
     };
 
     const makePayment = () => {
-        console.log("user", user)
+        setLoading(true)
+        data = {
+            user_id: userDetail.id,
+            amount: Number(coin)
+        }
+        withdrawal(data).then((res) => {
+            if (res.status) {
+                ShowToast(res?.message)
+            } else {
+                ShowToast(res?.message)
+            }
+            setLoading(false)
+            hideModal();
+        })
     };
 
     return (

@@ -25,6 +25,7 @@
     "expo-splash-screen": "~0.26.4",
     "expo-status-bar": "~1.11.1",
     "expo-updates": "~0.24.10",
+    "fiction-expo-restart": "^2.0.0",
     "mime": "^4.0.1",
     "patch-package": "^8.0.0",
     "react": "18.2.0",

@@ -61,7 +61,13 @@ export async function createChallange(payload) {
     const response = await APIKit.post(`/challenge/create`, payload);
     return response.data;
   } catch (error) {
-    return console.log(error);
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { error: 'No response from the server' };
+    } else {
+      return { error: 'Request setup error' };
+    }
   }
 }
 
@@ -90,6 +96,21 @@ export async function getChallange(payload) {
     return response.data;
   } catch (error) {
     return error;
+  }
+}
+
+export async function acceptChallange(payload) {
+  try {
+    const response = await APIKit.put(`/challenge/accept`, payload);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { error: 'No response from the server' };
+    } else {
+      return { error: 'Request setup error' };
+    }
   }
 }
 
