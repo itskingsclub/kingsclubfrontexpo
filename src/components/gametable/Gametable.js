@@ -17,14 +17,11 @@ const Gametable = ({ navigation }) => {
   const { userDetail, setUserDetail } = useContext(UserContext)
   const [challengs, setChallangs] = useState([])
   const [mychallengs, setmyChallanges] = useState([])
-  const [visible, setVisible] = useState(false);
   const [visiblemodal, setVisiblemodal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [updateChallenge, setUpdateChallenge] = useState(false)
-  const showModal = () => setVisible(true);
   const showModalChallange = () => setVisiblemodal(true);
-  const hideModal = () => setVisible(false);
   const hideModalChallange = () => setVisiblemodal(false);
   const [activeTab, setActiveTab] = useState('tab1');
   const handleTabClick = (tab) => {
@@ -37,7 +34,6 @@ const Gametable = ({ navigation }) => {
     setVisiblemodal(false)
   }, [navigation, updateChallenge])
 
-  console.log("updateChallenge", updateChallenge)
 
   const refreshContent = async () => {
     setLoading(true);
@@ -51,6 +47,10 @@ const Gametable = ({ navigation }) => {
       const response = await getChallange(data);
       const fetchedChallenges = response.data.challenges;
       setChallangs(fetchedChallenges)
+      getuser(userDetail.id)
+        .then((res) => {
+          setUserDetail(res.data);
+        })
     } catch (error) {
       console.log(error);
     }
@@ -309,7 +309,7 @@ const Gametable = ({ navigation }) => {
             <MaterialIcons name="refresh" color="#000" size={22} />
             <Text variant="titleMedium">Refresh</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[globalStyles.displaycolumn,]} onPress={showModal}>
+          <TouchableOpacity style={[globalStyles.displaycolumn,]} onPress={() => navigation.navigate("paymentdetail")}>
             <MaterialCommunityIcons name="hand-coin" color="#000" size={22} />
             <Text variant="titleMedium" >Add Coin</Text>
           </TouchableOpacity>
@@ -319,7 +319,6 @@ const Gametable = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <Addcoinmodal visible={visible} hideModal={hideModal} />
       <Createchallangemodal visiblemodal={visiblemodal} hideModalChallange={hideModalChallange} setUpdateChallenge={setUpdateChallenge} />
     </>
   )

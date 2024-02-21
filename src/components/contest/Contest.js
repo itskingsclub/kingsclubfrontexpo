@@ -32,15 +32,16 @@ const Contest = ({ route, navigation }) => {
   const showResultModal = () => setResultModal(true);
   const hideResultModal = () => setResultModal(false);
   const hideModal = () => setVisible(false);
+
+
+
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     fatchContest()
-    ShowToast("start refresh")
     setTimeout(() => {
       setRefreshing(false);
-      ShowToast("stop refresh")
     }, 2000);
   }, []);
 
@@ -166,7 +167,7 @@ const Contest = ({ route, navigation }) => {
                 <>
                   {contest.challenge_status !== "Processing" ? "" : (
                     <View style={globalStyles.displayRowbetween}>
-                      <Button style={[{ borderRadius: 5 }, { width: '47%' }]} buttonColor='#E0E0E0' textColor='#000' mode="contained" >
+                      <Button style={[{ borderRadius: 5 }, { width: '47%' }]} buttonColor='#FFE3A5' textColor='#000' mode="contained" onPress={() => navigation.navigate("screenshot", { status: "Cancel", contest })}>
                         CANCEL
                       </Button>
                       <Button onPress={showModal} style={[{ borderRadius: 5 }, { width: '50%' }]} buttonColor='#2E7D32' textColor='#FFF' mode="contained" >
@@ -178,10 +179,10 @@ const Contest = ({ route, navigation }) => {
               ) : (
                 <>
                   <View style={globalStyles.displayRowbetween}>
-                    <Button style={[{ borderRadius: 5 }, { width: '65%' }]} buttonColor='#0C225E' textColor='#fff' mode="contained" >
-                      Wait for Room Code
+                    <Button style={[{ borderRadius: 5 }, { width: '47%' }]} buttonColor='#FFE3A5' textColor='#000' mode="contained" onPress={() => navigation.navigate("screenshot", { status: "Cancel", contest })}>
+                      CANCEL
                     </Button>
-                    <Button onPress={refreshContent} style={[{ borderRadius: 5 }, { width: '30%' }]} buttonColor='#E0E0E0' textColor='#000' mode="contained" >
+                    <Button onPress={refreshContent} style={[{ borderRadius: 5 }, { width: '47%' }]} buttonColor='#E0E0E0' textColor='#000' mode="contained" >
                       Refresh
                     </Button>
                   </View>
@@ -209,7 +210,7 @@ const Contest = ({ route, navigation }) => {
             </Button>
           </View>
         ) : ""}
-      </View>
+      </View >
       <Portal>
         <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={globalStyles.modalBox}>
           <MaterialIcons name="close" color="#000" size={30} style={globalStyles.closeModal}

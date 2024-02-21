@@ -4,7 +4,7 @@ import { Button, Text, Modal, Portal, TextInput, useTheme, RadioButton, Activity
 import Header from '../header/Header';
 import globalStyles from '../../../globalstyle';
 import { UserContext } from '../../userDetail/Userdetail';
-import { deposit } from '../../service/apicalls';
+import { deposit, withdraw } from '../../service/apicalls';
 import ShowToast from '../../utility/ShowToast';
 import * as ImagePicker from 'expo-image-picker';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -67,14 +67,13 @@ const Withdrawcoin = ({ navigation }) => {
             user_id: userDetail.id,
             amount: Number(coin)
         }
-        withdrawal(data).then((res) => {
+        withdraw(data).then((res) => {
             if (res.status) {
                 ShowToast(res?.message)
             } else {
                 ShowToast(res?.message)
             }
             setLoading(false)
-            hideModal();
         })
     };
 

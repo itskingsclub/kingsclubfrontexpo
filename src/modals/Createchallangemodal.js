@@ -13,7 +13,6 @@ const Createchallangemodal = ({ visiblemodal, hideModalChallange, setUpdateChall
   const [loading, setLoading] = useState(false);
   const [coin, setCoin] = useState('100');
   const [error, setError] = useState("");
-  console.log("setUpdateChallenge2", setUpdateChallenge)
   const handleInputChange = (text) => {
     const inputNumber = parseInt(text);
     const totalCoin = userDetail.total_coin;
@@ -30,10 +29,6 @@ const Createchallangemodal = ({ visiblemodal, hideModalChallange, setUpdateChall
     }
     setCoin(text);
   };
-  useEffect(() => {
-    setUpdateChallenge(true)
-  }, [])
-
 
   const makePayment = async () => {
     setLoading(true);
@@ -43,7 +38,7 @@ const Createchallangemodal = ({ visiblemodal, hideModalChallange, setUpdateChall
     };
 
     createChallange(data).then((res) => {
-      if (res.status) {
+      if (res.success) {
         setLoading(false);
         ShowToast(res?.message);
         setUpdateChallenge(true)
