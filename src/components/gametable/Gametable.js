@@ -5,7 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import globalStyles from '../../../globalstyle';
 import { Button, useTheme, Text, Chip, Avatar, ActivityIndicator } from 'react-native-paper';
 import Addcoinmodal from '../../modals/Addcoinmodal';
-import { updateChallange, getChallange, myChallange, getuser } from '../../service/apicalls';
+import { updateChallange, getChallange, myChallange, getuser, acceptChallange } from '../../service/apicalls';
 import { UserContext } from '../../userDetail/Userdetail';
 import Header from '../header/Header';
 import Createchallangemodal from '../../modals/Createchallangemodal';
@@ -17,14 +17,11 @@ const Gametable = ({ navigation }) => {
   const { userDetail, setUserDetail } = useContext(UserContext)
   const [challengs, setChallangs] = useState([])
   const [mychallengs, setmyChallanges] = useState([])
-  const [visible, setVisible] = useState(false);
   const [visiblemodal, setVisiblemodal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [updateChallenge, setUpdateChallenge] = useState(false)
-  const showModal = () => setVisible(true);
   const showModalChallange = () => setVisiblemodal(true);
-  const hideModal = () => setVisible(false);
   const hideModalChallange = () => setVisiblemodal(false);
   const [activeTab, setActiveTab] = useState('tab1');
   const handleTabClick = (tab) => {
@@ -35,7 +32,6 @@ const Gametable = ({ navigation }) => {
     refreshContent();
     refreshContent2();
     setVisiblemodal(false)
-    setUpdateChallenge(false)
   }, [navigation, updateChallenge])
 
 
@@ -51,6 +47,10 @@ const Gametable = ({ navigation }) => {
       const response = await getChallange(data);
       const fetchedChallenges = response.data.challenges;
       setChallangs(fetchedChallenges)
+      getuser(userDetail.id)
+        .then((res) => {
+          setUserDetail(res.data);
+        })
     } catch (error) {
       console.log(error);
     }
@@ -80,15 +80,20 @@ const Gametable = ({ navigation }) => {
       if (data.creator === userDetail.id) {
         ShowToast("Creator can't join the table.");
       } else {
-        if (userDetail.game_coin >= data.amount) {
+        if (userDetail.game_coin + userDetail.win_coin >= data.amount) {
           const sendData = {
             id: data.id,
             joiner: userDetail.id,
             challenge_status: "Processing",
             updated_by: userDetail.id
           };
-          await updateChallange(sendData).then((res) => {
-            navigation.navigate('contest', { contestData: data });
+          await acceptChallange(sendData).then((res) => {
+            if (res.success) {
+              ShowToast(res.message)
+              navigation.navigate('contest', { contestData: data });
+            } else {
+              ShowToast(res.message)
+            }
             refreshContent()
             refreshContent2()
           });
@@ -304,7 +309,7 @@ const Gametable = ({ navigation }) => {
             <MaterialIcons name="refresh" color="#000" size={22} />
             <Text variant="titleMedium">Refresh</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[globalStyles.displaycolumn,]} onPress={showModal}>
+          <TouchableOpacity style={[globalStyles.displaycolumn,]} onPress={() => navigation.navigate("paymentdetail")}>
             <MaterialCommunityIcons name="hand-coin" color="#000" size={22} />
             <Text variant="titleMedium" >Add Coin</Text>
           </TouchableOpacity>
@@ -314,7 +319,6 @@ const Gametable = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <Addcoinmodal visible={visible} hideModal={hideModal} />
       <Createchallangemodal visiblemodal={visiblemodal} hideModalChallange={hideModalChallange} setUpdateChallenge={setUpdateChallenge} />
     </>
   )

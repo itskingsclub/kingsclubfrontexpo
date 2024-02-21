@@ -51,7 +51,7 @@ const Depositcoin = ({ navigation }) => {
             const uri = pickerResponse[0].uri;
             const formData = new FormData();
             formData.append('user_id', userDetail.id);
-            formData.append('amount', Number(coin));
+            // formData.append('amount', Number(coin));
             formData.append('image', {
                 name: uri.substring(uri.lastIndexOf('/') + 1),
                 type: pickerResponse[0].mimeType,

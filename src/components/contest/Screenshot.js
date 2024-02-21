@@ -5,9 +5,9 @@ import globalStyles from '../../../globalstyle'
 import { Button, useTheme, Text, Chip, Avatar, List, Portal, Modal, ActivityIndicator } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import Header from '../header/Header';
-import { updateResult } from '../../service/apicalls';
+import { getuser, updateResult } from '../../service/apicalls';
 import { UserContext } from '../../userDetail/Userdetail';
-import Toast from 'react-native-root-toast';
+import { Picker } from '@react-native-picker/picker';
 import mime from 'mime';
 import ShowToast from '../../utility/ShowToast';
 
@@ -20,17 +20,14 @@ const Screenshot = ({ navigation, route }) => {
     // Add more list items as needed
   ];
   const theme = useTheme();
-  const { userDetail } = useContext(UserContext)
+  const { userDetail, setUserDetail } = useContext(UserContext)
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false)
   const [pickerResponse, setPickerResponse] = useState(null);
+  const [selectedCancel, setSelectedCancel] = useState("0");
 
   const showModal = () => {
-    if (pickerResponse === null) {
-      ShowToast("Please select screenshot first")
-    } else {
-      setVisible(true);
-    }
+    setVisible(true);
   };
   const hideModal = () => {
     setVisible(false)
@@ -51,7 +48,6 @@ const Screenshot = ({ navigation, route }) => {
         // aspect: [5, 10],
         quality: 1,
       });
-      console.log("pickerResponse", pickerResponse)
       if (pickerResponse.cancelled) {
         console.log('User cancelled image picker');
       } else {
@@ -70,9 +66,8 @@ const Screenshot = ({ navigation, route }) => {
     const formData = new FormData();
     formData.append('id', contest.id);
     formData.append('updated_by', userDetail.id);
+    formData.append('joiner_cancel_reason', selectedCancel)
     const uri = pickerResponse[0].uri;
-    console.log("mime", mime.getType(pickerResponse[0].uri))
-    console.log("image", pickerResponse[0].mimeType)
 
     if (userDetail.id === contest.creator) {
       formData.append('creator', userDetail.id);
@@ -92,13 +87,22 @@ const Screenshot = ({ navigation, route }) => {
         uri: uri,
       });
     }
-    console.log("formData", formData._parts)
 
     await updateResult(formData).then((res) => {
-      console.log("res", res);
+      if (res.success) {
+        console.log("res", res);
+        ShowToast(res?.message);
+        navigation.navigate('gametable');
+        getuser(userDetail.id)
+          .then((res) => {
+            setUserDetail(res.data);
+          })
+      } else {
+        console.log("err", res);
+        ShowToast(res?.message);
+      }
       setLoading(false);
       hideModal();
-      navigation.navigate('gametable');
     });
   };
 
@@ -119,12 +123,11 @@ const Screenshot = ({ navigation, route }) => {
                   source={{ uri: pickerResponse[0].uri }}
                   style={{
                     width: Math.min(600, pickerResponse[0].width),
-                    height: Math.min(600, pickerResponse[0].height),
+                    height: 400,
                     resizeMode: 'contain', // or 'cover' depending on your preference
                   }}
                 />
               )}
-
               <Button
                 style={[{ borderRadius: 0, width: '98.3%' }, { backgroundColor: '#FFCE6D' }]}
                 textColor='#000'
@@ -135,6 +138,27 @@ const Screenshot = ({ navigation, route }) => {
               </Button>
             </View>
           </View>
+          {status === "Cancel" &&
+            <>
+              <Text variant="titleMedium" style={{ marginTop: 10 }}>Select Your Reason</Text>
+              <View style={[globalStyles.contactusBox, globalStyles.transBox, { paddingHorizontal: 2 }, { paddingVertical: 2 }]}>
+                <Picker
+                  label="select"
+                  selectedValue={selectedCancel}
+                  onValueChange={(itemValue, itemIndex) =>
+                    setSelectedCancel(itemValue)
+                  }>
+                  <Picker.Item label="select a value" value="0" />
+                  <Picker.Item label="ludo app not working" value="ludo app not working" />
+                  <Picker.Item label="opponent can't join" value="opponent can't join" />
+                  <Picker.Item label="opponent use diamond" value="opponent use diamond" />
+                  <Picker.Item label="oppenent left the game" value="oppenent left the game" />
+                  <Picker.Item label="invalid room code" value="invalid room code" />
+                </Picker>
+              </View>
+            </>
+          }
+
           <Portal>
             <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={globalStyles.modalBox}>
               <MaterialIcons name="close" color="#000" size={24} style={globalStyles.closeModal}
@@ -155,7 +179,7 @@ const Screenshot = ({ navigation, route }) => {
           </Portal>
         </ScrollView>
         <View style={globalStyles.displayRowbetween}>
-          <Button onPress={showModal} style={[{ borderRadius: 0 }, { width: '100%' }, { backgroundColor: '#CBFFC5' }]} textColor='#000' mode="contained">
+          <Button onPress={showModal} style={[{ borderRadius: 0 }, { width: '100%' }]} disabled={pickerResponse === null || status === "Cancel" ? selectedCancel === "0" : false} buttonColor='#CBFFC5' textColor='#000' mode="contained">
             CONFIRM
           </Button>
         </View>

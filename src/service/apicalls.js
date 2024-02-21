@@ -61,7 +61,13 @@ export async function createChallange(payload) {
     const response = await APIKit.post(`/challenge/create`, payload);
     return response.data;
   } catch (error) {
-    return console.log(error);
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { error: 'No response from the server' };
+    } else {
+      return { error: 'Request setup error' };
+    }
   }
 }
 
@@ -93,6 +99,21 @@ export async function getChallange(payload) {
   }
 }
 
+export async function acceptChallange(payload) {
+  try {
+    const response = await APIKit.put(`/challenge/accept`, payload);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { error: 'No response from the server' };
+    } else {
+      return { error: 'Request setup error' };
+    }
+  }
+}
+
 export async function updateChallange(payload) {
   try {
     const response = await APIKit.put(`/challenge/update`, payload);
@@ -103,16 +124,21 @@ export async function updateChallange(payload) {
 }
 
 export async function updateResult(payload) {
-  console.log("payload", payload);
   try {
     const response = await APIKit.put(`/challenge/update-result`, payload, {
       headers: {
         "Content-Type": false,
       },
     });
-    return response;
+    return response.data;
   } catch (error) {
-    console.error("Error in updateResult:", error);
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { error: 'No response from the server' };
+    } else {
+      return { error: 'Request setup error' };
+    }
   }
 }
 
@@ -145,7 +171,7 @@ export async function deposit(payload) {
   }
 }
 
-export async function withdrawal(payload) {
+export async function withdraw(payload) {
   try {
     const response = await APIKit.post(`/payment/withdraw`, payload);
     return response.data;
