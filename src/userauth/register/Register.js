@@ -13,6 +13,7 @@ import { TextInput, Text, Button, ActivityIndicator } from "react-native-paper";
 import { useTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { registerApi } from "../../service/apicalls";
+import ShowToast from "../../utility/ShowToast";
 
 const Register = ({ navigation }) => {
   const theme = useTheme();
@@ -60,16 +61,16 @@ const Register = ({ navigation }) => {
     };
     await registerApi(data)
       .then((res) => {
+        if (res.success) {
+          AsyncStorage.setItem("mobileNumber", data.mobile);
+          ShowToast(res?.message)
+          navigation.navigate("otpverify");
+        } else {
+          console.log(res?.message)
+          ShowToast(res?.message)
+        }
         setLoading(false);
-        const otp = res.data.pin;
-        console.log("otp", otp);
-        AsyncStorage.setItem("mobileNumber", data.mobile);
-        navigation.navigate("otpverify");
       })
-      .catch((error) => {
-        console.log("error", error);
-        setLoading(false);
-      });
   };
 
   const handleLinkPress = (url) => {

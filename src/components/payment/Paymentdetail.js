@@ -25,15 +25,15 @@ const Paymentdetail = ({ navigation }) => {
                         <Text variant="titleLarge" style={{ textAlign: 'center', marginBottom: 10 }}>Bank Detail</Text>
                         <View style={[{ flexDirection: 'row' }]}>
                             <Text variant="titleMedium" style={{ width: '40%' }}>Account No:-</Text>
-                            <TouchableOpacity onPress={() => copyRoomCodeToClipboard("123456789@paytm", "Account No")} style={{ width: '60%' }}>
+                            <TouchableOpacity onPress={() => copyRoomCodeToClipboard("12345678945678", "Account No")} style={{ width: '60%' }}>
                                 <Text variant="titleMedium">12345678945678 <MaterialCommunityIcons name="content-copy" color="#028907" size={18} /></Text>
                             </TouchableOpacity>
                         </View>
                         <Divider />
                         <View style={[{ flexDirection: 'row' }]}>
                             <Text variant="titleMedium" style={{ width: '40%' }}>IFSC Code:-</Text>
-                            <TouchableOpacity onPress={() => copyRoomCodeToClipboard("123456789@paytm", "IFSC Code")} style={{ width: '60%' }}>
-                                <Text variant="titleMedium">12345678945678 <MaterialCommunityIcons name="content-copy" color="#028907" size={18} /></Text>
+                            <TouchableOpacity onPress={() => copyRoomCodeToClipboard("SBIN0032381", "IFSC Code")} style={{ width: '60%' }}>
+                                <Text variant="titleMedium">SBIN0032381 <MaterialCommunityIcons name="content-copy" color="#028907" size={18} /></Text>
                             </TouchableOpacity>
                         </View>
                         <Divider />
@@ -53,14 +53,14 @@ const Paymentdetail = ({ navigation }) => {
                         <Divider />
                         <View style={[{ flexDirection: 'row' }]}>
                             <Text variant="titleMedium" style={{ width: '40%' }}>Phone pay:-</Text>
-                            <TouchableOpacity onPress={() => copyRoomCodeToClipboard("123456789@paytm", "Phonepay UPI")} style={{ width: '60%' }}>
+                            <TouchableOpacity onPress={() => copyRoomCodeToClipboard("123456789@ybl", "Phonepay UPI")} style={{ width: '60%' }}>
                                 <Text variant="titleMedium">123456789@ybl <MaterialCommunityIcons name="content-copy" color="#028907" size={18} /></Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                     <View style={[globalStyles.contactusBox, globalStyles.transBox, { paddingHorizontal: 5 }, { marginBottom: 10 }]}>
                         <Text variant="titleLarge" style={{ textAlign: 'center', marginBottom: 10 }}>QR Code Detail</Text>
-                        <View style={[{ flexDirection: 'row' }]}>
+                        <View style={[{ flexDirection: 'row', justifyContent: 'center' }]}>
                             <Image source={require('../../../assets/images/qr.jpg')}
                                 style={{
                                     width: 400,

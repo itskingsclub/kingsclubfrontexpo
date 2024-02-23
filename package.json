@@ -22,7 +22,6 @@
     "expo-clipboard": "~5.0.1",
     "expo-font": "~11.10.2",
     "expo-image-picker": "~14.7.1",
-    "expo-splash-screen": "~0.26.4",
     "expo-status-bar": "~1.11.1",
     "expo-updates": "~0.24.10",
     "fiction-expo-restart": "^2.0.0",

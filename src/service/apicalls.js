@@ -5,7 +5,13 @@ export async function registerApi(payload) {
     const response = await APIKit.post(`/user/register`, payload);
     return response.data;
   } catch (error) {
-    return error;
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { error: 'No response from the server' };
+    } else {
+      return { error: 'Request setup error' };
+    }
   }
 }
 
