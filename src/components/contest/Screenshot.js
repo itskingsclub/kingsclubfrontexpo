@@ -99,7 +99,7 @@ const Screenshot = ({ navigation, route }) => {
           })
       } else {
         console.log("err", res);
-        ShowToast(res?.message);
+        ShowToast(res?.message || res.error);
       }
       setLoading(false);
       hideModal();
