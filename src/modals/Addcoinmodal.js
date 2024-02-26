@@ -5,7 +5,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Button, Text, Modal, Portal, TextInput, useTheme, RadioButton, ActivityIndicator } from 'react-native-paper';
 import { deposit, getuser, updateUser } from '../service/apicalls';
 import { UserContext } from '../userDetail/Userdetail';
-import Toast from 'react-native-root-toast';
 import ShowToast from '../utility/ShowToast';
 
 const Addcoinmodal = ({ visible, hideModal }) => {

@@ -8,7 +8,6 @@ import Header from '../header/Header';
 import { getuser, updateResult } from '../../service/apicalls';
 import { UserContext } from '../../userDetail/Userdetail';
 import { Picker } from '@react-native-picker/picker';
-import mime from 'mime';
 import ShowToast from '../../utility/ShowToast';
 
 const Screenshot = ({ navigation, route }) => {

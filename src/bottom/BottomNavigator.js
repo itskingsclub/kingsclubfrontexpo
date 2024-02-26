@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native';
 import Home from './Home';
 import Wallet from './Wallet';
-import Contact from './Contact';
+import Invite from '../components/invite/Invite';
 const BottomNavigator = () => {
   const navigation = useNavigation();
 
@@ -12,7 +12,7 @@ const BottomNavigator = () => {
   const [routes] = React.useState([
     { key: 'home', title: 'Home', focusedIcon: 'dots-grid', unfocusedIcon: 'dots-square' },
     { key: 'mywallet', title: 'My Wallet', focusedIcon: 'wallet', unfocusedIcon: 'wallet-outline' },
-    { key: 'contact', title: 'Contact Us', focusedIcon: 'plus-box', unfocusedIcon: 'plus' },
+    { key: 'invite', title: 'Invite', focusedIcon: 'share-all', unfocusedIcon: 'share-all-outline' },
   ]);
 
   // Pass navigation prop to Home component
@@ -22,8 +22,8 @@ const BottomNavigator = () => {
         return <Home navigation={navigation} />; // Pass navigation prop to Home component
       case 'mywallet':
         return <Wallet navigation={navigation} icon={true} />;
-      case 'contact':
-        return <Contact navigation={navigation} />;
+      case 'invite':
+        return <Invite navigation={navigation} />;
       default:
         return null;
     }
