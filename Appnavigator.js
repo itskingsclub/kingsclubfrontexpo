@@ -20,6 +20,8 @@ import Termscondition from "./src/components/setting/Termscondition";
 import Paymentdetail from "./src/components/payment/Paymentdetail";
 import Depositcoin from "./src/components/payment/Depositcoin";
 import Withdrawcoin from "./src/components/payment/Withdrawcoin";
+import Invite from "./src/components/invite/Invite";
+import Contact from "./src/bottom/Contact";
 const Stack = createStackNavigator();
 
 const AppNavigator = ({ user }) => {
@@ -99,6 +101,16 @@ const AppNavigator = ({ user }) => {
         <Stack.Screen
           name="paymentdetail"
           component={Paymentdetail}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="invite"
+          component={Invite}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="contact"
+          component={Contact}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

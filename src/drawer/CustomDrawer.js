@@ -98,8 +98,9 @@ const CustomDrawer = ({ navigation }) => {
         />
         <Drawer.Item
           style={{ backgroundColor: '#fff' }}
-          icon="account-supervisor-circle"
-          label="Friends"
+          icon="plus-box"
+          label="Contact Us"
+          onPress={() => handleNavigation('contact')}
         />
         <Drawer.Item
           style={{ backgroundColor: '#fff' }}
