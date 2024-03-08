@@ -154,7 +154,13 @@ export async function myPayment(payload) {
     const response = await APIKit.post(`/payment/my-payments/?${queryString}`);
     return response.data;
   } catch (error) {
-    return console.log(error, payload);
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { error: 'No response from the server' };
+    } else {
+      return { error: 'Request setup error' };
+    }
   }
 }
 
@@ -189,5 +195,15 @@ export async function withdraw(payload) {
     } else {
       return { error: 'Request setup error' };
     }
+  }
+}
+
+export async function leaderboardapi(payload) {
+  try {
+    const queryString = new URLSearchParams(payload).toString();
+    const response = await APIKit.get(`/user/leaderboard?${queryString}`);
+    return response.data;
+  } catch (error) {
+    return error;
   }
 }

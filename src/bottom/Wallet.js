@@ -35,20 +35,25 @@ const Wallet = ({ navigation, icon }) => {
     const data = {
       id: userDetail.id,
       offset: 0,
-      limit: 10,
+      limit: 20,
       sort: 'id',
       order: 'DESC',
     }
     myPayment(data).then((res) => {
-      setMypayment(res.data.payments)
-      getuser(userDetail.id).then((res) => {
-        if (res.success) {
-          setUserDetail(res.data)
-          // ShowToast(res.message)
-        } else {
-          // ShowToast(res.message)
-        }
-      })
+      if (res.success) {
+        console.log("res", res.data.payments)
+        setMypayment(res.data.payments)
+        getuser(userDetail.id).then((res) => {
+          if (res.success) {
+            setUserDetail(res.data)
+            // ShowToast(res.message)
+          } else {
+            // ShowToast(res.message)
+          }
+        })
+      } else {
+        console.log("err", res.data)
+      }
       setLoading(false)
     })
   }
@@ -59,6 +64,9 @@ const Wallet = ({ navigation, icon }) => {
     });
     return unsubscribeFocus;
   }, [navigation, userDetail]);
+  useEffect(() => {
+    fatchContest();
+  }, []);
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -161,9 +169,12 @@ const Wallet = ({ navigation, icon }) => {
                 {mypayment && mypayment.map((data, i) => (
                   <View style={[globalStyles.transBox, globalStyles.displayRowbetween]} key={i}>
                     <View style={[globalStyles.displayRowbetween]}>
-                      <View style={[globalStyles.transIcon, { backgroundColor: data.type === "Deposit" ? theme.colors.greenLightColor : theme.colors.redLightColor }]}>
+                      <View style={[globalStyles.transIcon, {
+                        backgroundColor: data.payment_status === "Pending" ? theme.colors.yellowLightColor : data.payment_status === "Cancel" ? theme.colors.redLightColor : theme.colors.greenLightColor
+                      }]}>
                         <View style={globalStyles.transIcon2}>
-                          <Feather name="arrow-down-left" color={theme.colors.greenColor} size={24} style={data.type === "Deposit" ? "" : { transform: [{ rotate: '180deg' }] }} />
+                          <Feather name="arrow-down-left" color={data.payment_status === "Pending" ? theme.colors.yellowLightColor : data.payment_status === "Cancel" ? theme.colors.redLightColor : theme.colors.greenColor
+                          } size={24} style={data.type === "Deposit" ? "" : { transform: [{ rotate: '180deg' }] }} />
                         </View>
                       </View>
                       <View>

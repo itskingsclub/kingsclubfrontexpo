@@ -258,31 +258,32 @@ const Gametable = ({ navigation }) => {
               activeTab === 'tab2' &&
               <View >
                 {challengs && challengs.filter(challenge => challenge.amount < 100).map((data, i) => (
-                  <View style={globalStyles.challangesBox} key={i}>
+                  <TouchableOpacity style={globalStyles.challangesBox} key={i} onPress={() => challangeFunction(data)}>
                     <View style={globalStyles.challangeBoxTop}>
                       <View style={[globalStyles.displayRowbetween, { gap: 5 }, { justifyContent: 'space-between' }, { alignItems: 'flex-end' }]}>
                         <View style={[{ alignItems: 'center' }, { gap: 5 }, globalStyles.challangeschallenger]}>
                           <Avatar.Image size={32} source={require('../../../assets/images/avatar.png')} />
-                          <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{ overflow: 'hidden' }, { width: 100 }]}>Mukesh Jat ada adad das</Text>
+                          <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{ overflow: 'hidden' }, { width: 100 }]}>{data.creatorUser.name}</Text>
                         </View>
                         <View style={globalStyles.challangeFor}>
                           <View style={[globalStyles.chip]}  >
-                            <Text variant='labelMedium'>KC - {data.id + 10000}</Text>
+                            <Text variant='labelMedium' style={{ textAlign: 'center' }}>KC - {data.id}</Text>
                           </View>
                           <Text variant="labelMedium" textColor={theme.colors.primary} >Has Challenge for</Text>
                           <Text variant="titleMedium" style={{ textAlign: 'center', color: theme.colors.red }} >{data.amount} Coins</Text>
                         </View>
                         <View style={[{ alignItems: 'center' }, { gap: 5 }]}>
                           <Avatar.Image size={32} source={require('../../../assets/images/avatar.png')} />
-                          <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{ overflow: 'hidden' }, { width: 100 }]}>{data.challenge_status === 'Waiting' ? "Waiting" : "joiner name"}</Text>
+                          <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{ overflow: 'hidden' }, { width: 100 }]}>{data.challenge_status === 'Waiting' ? "Waiting" : data.joinerUser.name}</Text>
                         </View>
                       </View>
                     </View>
                     <View style={[globalStyles.displayRowbetween, globalStyles.challangeBoxBottom, globalStyles.challangeBoxBottom2]}>
-                      <Text variant="bodyMedium" style={[globalStyles.width50, { textAlign: 'center' }, { paddingVertical: 2 }, { borderBottomLeftRadius: 8 }, { backgroundColor: '#FFE3A5' }]}>Winning: 90</Text>
-                      <Text variant="bodyMedium" style={[globalStyles.width50, { textAlign: 'center' }, { paddingVertical: 2 }, { borderBottomRightRadius: 8 }, { backgroundColor: '#CBFFC5' }]} onPress={() => navigation.navigate('contest')}> {contestData.challenge_status === "Waiting" ? "Accept" : contestData.challenge_status}</Text>
+                      <Text variant="bodyMedium" style={[globalStyles.width50, { textAlign: 'center' }, { paddingVertical: 2 }, { borderBottomLeftRadius: 8 }, { backgroundColor: '#FFE3A5' }]}>Winning: {(data.amount - (data.amount * 10) / 100) * 2}</Text>
+                      <Text variant="bodyMedium" style={[globalStyles.width50, { textAlign: 'center' }, { paddingVertical: 2 }, { borderBottomRightRadius: 8 }, { backgroundColor: '#CBFFC5' }]}
+                      >{data.challenge_status === "Waiting" ? (userDetail.id === data.creator ? "Waiting" : "Accept") : data.challenge_status}</Text>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                 ))}
               </View>
             }
@@ -291,31 +292,32 @@ const Gametable = ({ navigation }) => {
               activeTab === 'tab3' &&
               <View >
                 {challengs && challengs.filter(challenge => challenge.amount >= 100 && challenge.amount <= 500).map((data, i) => (
-                  <View style={globalStyles.challangesBox} key={i}>
+                  <TouchableOpacity style={globalStyles.challangesBox} key={i} onPress={() => challangeFunction(data)}>
                     <View style={globalStyles.challangeBoxTop}>
                       <View style={[globalStyles.displayRowbetween, { gap: 5 }, { justifyContent: 'space-between' }, { alignItems: 'flex-end' }]}>
                         <View style={[{ alignItems: 'center' }, { gap: 5 }, globalStyles.challangeschallenger]}>
                           <Avatar.Image size={32} source={require('../../../assets/images/avatar.png')} />
-                          <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{ overflow: 'hidden' }, { width: 100 }]}>Mukesh Jat ada adad das</Text>
+                          <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{ overflow: 'hidden' }, { width: 100 }]}>{data.creatorUser.name}</Text>
                         </View>
                         <View style={globalStyles.challangeFor}>
                           <View style={[globalStyles.chip]}  >
-                            <Text variant='labelMedium'>KC - {data.id + 10000}</Text>
+                            <Text variant='labelMedium' style={{ textAlign: 'center' }}>KC - {data.id}</Text>
                           </View>
                           <Text variant="labelMedium" textColor={theme.colors.primary} >Has Challenge for</Text>
                           <Text variant="titleMedium" style={{ textAlign: 'center', color: theme.colors.red }} >{data.amount} Coins</Text>
                         </View>
                         <View style={[{ alignItems: 'center' }, { gap: 5 }]}>
                           <Avatar.Image size={32} source={require('../../../assets/images/avatar.png')} />
-                          <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{ overflow: 'hidden' }, { width: 100 }]}>{data.challenge_status === 'Waiting' ? "Waiting" : "joiner name"}</Text>
+                          <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{ overflow: 'hidden' }, { width: 100 }]}>{data.challenge_status === 'Waiting' ? "Waiting" : data.joinerUser.name}</Text>
                         </View>
                       </View>
                     </View>
                     <View style={[globalStyles.displayRowbetween, globalStyles.challangeBoxBottom, globalStyles.challangeBoxBottom2]}>
-                      <Text variant="bodyMedium" style={[globalStyles.width50, { textAlign: 'center' }, { paddingVertical: 2 }, { borderBottomLeftRadius: 8 }, { backgroundColor: '#FFE3A5' }]}>Winning: 90</Text>
-                      <Text variant="bodyMedium" style={[globalStyles.width50, { textAlign: 'center' }, { paddingVertical: 2 }, { borderBottomRightRadius: 8 }, { backgroundColor: '#CBFFC5' }]} onPress={() => navigation.navigate('contest')}>Accept</Text>
+                      <Text variant="bodyMedium" style={[globalStyles.width50, { textAlign: 'center' }, { paddingVertical: 2 }, { borderBottomLeftRadius: 8 }, { backgroundColor: '#FFE3A5' }]}>Winning: {(data.amount - (data.amount * 10) / 100) * 2}</Text>
+                      <Text variant="bodyMedium" style={[globalStyles.width50, { textAlign: 'center' }, { paddingVertical: 2 }, { borderBottomRightRadius: 8 }, { backgroundColor: '#CBFFC5' }]}
+                      >{data.challenge_status === "Waiting" ? (userDetail.id === data.creator ? "Waiting" : "Accept") : data.challenge_status}</Text>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                 ))}
               </View>
             }

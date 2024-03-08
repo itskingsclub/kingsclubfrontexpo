@@ -11,6 +11,7 @@ const theme = {
     gray: '#E2E2E2',
     whiteColor: '#fff',
     yellowCOlor: '#FF920A',
+    yellowLightColor: '#FF920A80',
     greenColor: '#028907',
     greenLightColor: '#CBFFC5',
     grayButtonColor: '#333333',

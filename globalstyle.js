@@ -309,6 +309,19 @@ const globalStyles = StyleSheet.create({
     padding: 6.5,
     marginRight: 5,
   },
+  tabButton: {
+    margin: 0,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#000',
+    // color: '#000'
+  },
+  tabButtonlabel: {
+    fontSize: 12, paddingVertical: 0, marginVertical: 3, marginHorizontal: 5, paddingHorizontal: 10
+  },
+  activeTabButton: {
+    borderColor: '#FFCE6D',
+  },
   transIcon2: {
     width: "100%",
     height: "100%",
@@ -323,8 +336,8 @@ const globalStyles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: "#0C225E",
     color: "#fff",
-    paddingVertical: 3,
-    paddingHorizontal: 8,
+    paddingVertical: 5,
+    paddingHorizontal: 12,
   },
   rankText: {
     color: "#000",
