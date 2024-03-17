@@ -18,6 +18,8 @@ const Home = ({ navigation }) => {
             style={{
               width: 180,
               height: 150,
+              objectFit: 'contain',
+              marginRight: 5
             }}
           />
           <View style={styles.playGameBoxContent}>
@@ -54,6 +56,8 @@ const Home = ({ navigation }) => {
             style={{
               width: 180,
               height: 150,
+              objectFit: 'contain',
+              marginRight: 5
             }}
           />
           <View style={styles.playGameBoxContent}>
@@ -70,6 +74,8 @@ const Home = ({ navigation }) => {
             style={{
               width: 180,
               height: 150,
+              objectFit: 'contain',
+              marginRight: 5
             }}
           />
           <View style={styles.playGameBoxContent}>
@@ -86,6 +92,8 @@ const Home = ({ navigation }) => {
             style={{
               width: 180,
               height: 150,
+              objectFit: 'contain',
+              marginRight: 5
             }}
           />
           <View style={styles.playGameBoxContent}>
@@ -110,7 +118,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 5,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 15,
   },
