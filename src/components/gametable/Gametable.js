@@ -1,5 +1,6 @@
 import { StyleSheet, View, TouchableOpacity, ScrollView, Image, RefreshControl } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome6';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import globalStyles from '../../../globalstyle';
@@ -10,6 +11,7 @@ import { UserContext } from '../../userDetail/Userdetail';
 import Header from '../header/Header';
 import Createchallangemodal from '../../modals/Createchallangemodal';
 import ShowToast from '../../utility/ShowToast';
+import baseaddress from '../../service/baseAddress';
 
 
 const Gametable = ({ navigation }) => {
@@ -183,8 +185,18 @@ const Gametable = ({ navigation }) => {
                           </View>
                           <Text variant="labelMedium" textColor={theme.colors.primary}> {data.challenge_status === "Clear" ? "Challange Completed" : "Challenge Accepted"}</Text>
                           <View style={[globalStyles.displayRowCenter, { gap: 10 }]}>
-                            <Avatar.Image size={24} style={{ marginRight: 5 }} source={require('../../../assets/images/avatar.png')} />
-                            <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{ overflow: 'hidden' }, { width: 100 }]}>Mukesh Jat ada adad das</Text>
+                            <Image
+                              source={userDetail.id === data.creatorUser.id ? { uri: `${baseaddress}/upload/${data.creatorUser.profile}` } : userDetail.id === data.joinerUser.id ? { uri: `${baseaddress}/upload/${data.joinerUser.profile}` } : require('../../../assets/images/avatar.png')}
+                              style={{
+                                width: 32,
+                                height: 32,
+                                resizeMode: 'cover',
+                                borderRadius: 50
+                              }}
+                            />
+                            <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{ overflow: 'hidden' }, { width: 100 }]}>
+                              {userDetail.id === data.creatorUser.id ? data.creatorUser.name : data.joinerUser.name}
+                            </Text>
                           </View>
                         </View>
                         <View style={[globalStyles.challangeBoxBottom, globalStyles.challangeBoxBottom2, { width: 360 }]}>
@@ -223,8 +235,16 @@ const Gametable = ({ navigation }) => {
                         <View style={globalStyles.challangeBoxTop}>
                           <View style={[globalStyles.displayRowbetween, { gap: 5 }, { justifyContent: 'space-between' }, { alignItems: 'flex-end' }]}>
                             <View style={[{ alignItems: 'center' }, { gap: 5 }, globalStyles.challangeschallenger]}>
-                              <Avatar.Image size={32} source={require('../../../assets/images/avatar.png')} />
-                              <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{ overflow: 'hidden' }, { width: 100 }]}>{data.creatorUser.name}</Text>
+                              <Image
+                                source={data?.creatorUser?.profile ? { uri: `${baseaddress}/upload/${data.creatorUser.profile}` } : require('../../../assets/images/avatar.png')}
+                                style={{
+                                  width: 32,
+                                  height: 32,
+                                  resizeMode: 'cover',
+                                  borderRadius: 50
+                                }}
+                              />
+                              <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{ overflow: 'hidden' }, { width: 100 }, { textAlign: 'center' }]}>{data.creatorUser.name}</Text>
                             </View>
                             <View style={globalStyles.challangeFor}>
                               <View style={[globalStyles.chip]}  >
@@ -234,8 +254,16 @@ const Gametable = ({ navigation }) => {
                               <Text variant="titleMedium" style={{ textAlign: 'center', color: theme.colors.red }} >{data.amount} Coins</Text>
                             </View>
                             <View style={[{ alignItems: 'center' }, { gap: 5 }]}>
-                              <Avatar.Image size={32} source={require('../../../assets/images/avatar.png')} />
-                              <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{ overflow: 'hidden' }, { width: 100 }]}>{data.challenge_status === 'Waiting' ? "Waiting" : data.joinerUser.name}</Text>
+                              <Image
+                                source={data?.joinerUser?.profile ? { uri: `${baseaddress}/upload/${data.joinerUser.profile}` } : require('../../../assets/images/avatar.png')}
+                                style={{
+                                  width: 32,
+                                  height: 32,
+                                  resizeMode: 'cover',
+                                  borderRadius: 50
+                                }}
+                              />
+                              <Text variant="labelMedium" numberOfLines={1} ellipsizeMode="tail" textColor={theme.colors.primary} style={[{ overflow: 'hidden' }, { width: 100 }, { textAlign: 'center' }]}>{data.challenge_status === 'Waiting' ? "Waiting" : data.joinerUser.name}</Text>
                             </View>
                           </View>
                         </View>

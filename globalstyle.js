@@ -41,6 +41,12 @@ const globalStyles = StyleSheet.create({
     blueCOlor: "#7E49FF",
     whiteColor: "#fff",
   },
+  avatarStyle: {
+    borderColor: "#0C225E",
+    borderWidth: 1,
+    borderRadius: 50,
+    padding: 5,
+  },
   input: {
     borderColor: "#000",
     borderWidth: 1,

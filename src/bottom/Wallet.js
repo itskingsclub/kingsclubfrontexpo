@@ -173,7 +173,7 @@ const Wallet = ({ navigation, icon }) => {
                         backgroundColor: data.payment_status === "Pending" ? theme.colors.yellowLightColor : data.payment_status === "Cancel" ? theme.colors.redLightColor : theme.colors.greenLightColor
                       }]}>
                         <View style={globalStyles.transIcon2}>
-                          <Feather name="arrow-down-left" color={data.payment_status === "Pending" ? theme.colors.yellowLightColor : data.payment_status === "Cancel" ? theme.colors.redLightColor : theme.colors.greenColor
+                          <Feather name="arrow-down-left" color={data.payment_status === "Pending" ? theme.colors.yellowCOlor : data.payment_status === "Cancel" ? theme.colors.red : theme.colors.greenColor
                           } size={24} style={data.type === "Deposit" ? "" : { transform: [{ rotate: '180deg' }] }} />
                         </View>
                       </View>
