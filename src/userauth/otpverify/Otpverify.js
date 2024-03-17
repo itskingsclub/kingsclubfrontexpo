@@ -30,7 +30,7 @@ const Otpverify = ({ navigation }) => {
   const [seconds, setSeconds] = useState(3);
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log(otpInput);
+
   useEffect(() => {
     const fetchNumber = async () => {
       try {
@@ -47,6 +47,14 @@ const Otpverify = ({ navigation }) => {
   const restartApp = async () => {
     await Updates.reloadAsync();
   };
+  const addAsyncStorage = async () => {
+    try {
+      await restartApp()
+    } catch (error) {
+      console.error('Error adding AsyncStorage:', error);
+    }
+  };
+
   const otpSubmit = async () => {
     setLoading(true);
     data = {
@@ -62,8 +70,7 @@ const Otpverify = ({ navigation }) => {
         const jsonValue = JSON.stringify(res.data);
         AsyncStorage.setItem("userDetail", jsonValue);
         setError("");
-        restartApp();
-        navigation.navigate("parent");
+        addAsyncStorage()
       } else {
         console.log("false", res.message);
         setError(res.message);
@@ -171,9 +178,8 @@ const Otpverify = ({ navigation }) => {
               >
                 {error}
               </Text>
-              <Text variant="titleLarge">{`00:${
-                seconds < 10 ? `0${seconds}` : seconds
-              }`}</Text>
+              <Text variant="titleLarge">{`00:${seconds < 10 ? `0${seconds}` : seconds
+                }`}</Text>
               <Button
                 labelStyle={[
                   styles.mainButton,
