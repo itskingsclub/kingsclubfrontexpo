@@ -112,7 +112,7 @@ const Myprofile = ({ navigation }) => {
       const pickerResponse = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [5, 10],
+        aspect: [5, 5],
         quality: 1,
       });
       if (pickerResponse.cancelled) {

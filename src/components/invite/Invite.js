@@ -11,21 +11,31 @@ import { UserContext } from '../../userDetail/Userdetail';
 const Invite = ({ navigation }) => {
     const theme = useTheme();
     const { userDetail } = useContext(UserContext);
-    const onShare = async () => {
+    const onShare = async (platform) => {
+        let message = `📲 Download KingsClub App: https://kingsclub.vercel.app/kingsclub.apk
+    🔥 Sign Up with Code ${userDetail.invite_code}: During registration, enter the invite code to claim your ₹100 bonus.
+    🎉 Enjoy Gaming: Dive into thrilling games and challenges!
+    
+    Don't miss out on this exclusive offer! 🚀
+    
+    Download now and let the gaming fun begin! 🕹️✨
+    
+    https://kingsclub.vercel.app/kingsclub.apk
+    
+    Happy gaming! 🎉`;
+        // Customize message for different platforms if needed
+        if (platform === 'whatsapp') {
+            // Open WhatsApp directly
+            Linking.openURL(`whatsapp://send?text=${encodeURIComponent(message)}`);
+            return;
+        } else if (platform === 'telegram') {
+            // Open Telegram directly
+            Linking.openURL(`https://t.me/share/url?url=${encodeURIComponent(message)}`);
+            return;
+        }
         try {
             const result = await Share.share({
-                message:
-                    `📲 Download KingsClub App: https://kingsclub.vercel.app/kingsclub.apk
-                    🔥 Sign Up with Code ${userDetail.invite_code}: During registration, enter the invite code to claim your ₹100 bonus.
-                    🎉 Enjoy Gaming: Dive into thrilling games and challenges!
-                
-                Don't miss out on this exclusive offer! 🚀
-                
-                Download now and let the gaming fun begin! 🕹️✨
-                
-                https://kingsclub.vercel.app/kingsclub.apk
-                
-                Happy gaming! 🎉"`,
+                message,
             });
             if (result.action === Share.sharedAction) {
                 if (result.activityType) {
@@ -60,7 +70,7 @@ const Invite = ({ navigation }) => {
                     </View>
                     <View style={[globalStyles.scrollContainer, { paddingTop: 16 },]}>
                         <TouchableOpacity style={[globalStyles.contactusBox, globalStyles.transBox, { paddingHorizontal: 5 }]}
-                            onPress={() => { Linking.openURL(`whatsapp://send?phone=9116724908`) }} >
+                            onPress={() => onShare('whatsapp')} >
                             <View style={[globalStyles.displayRowbetween, { justifyContent: 'flex-start' }]}>
                                 <View style={[globalStyles.transIcon, globalStyles.displaycolumn, { backgroundColor: "#4CAF51" }, { marginRight: 10 }]}>
                                     {/* <View style={globalStyles.transIcon2}> */}
@@ -74,7 +84,7 @@ const Invite = ({ navigation }) => {
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={[globalStyles.contactusBox, globalStyles.transBox, { paddingHorizontal: 5 }]}
-                            onPress={() => { Linking.openURL(`https://t.me/9116724908`) }} >
+                            onPress={() => onShare('telegram')} >
                             <View style={[globalStyles.displayRowbetween, { justifyContent: 'flex-start' }]}>
                                 <View style={[globalStyles.transIcon, globalStyles.displaycolumn, { backgroundColor: "#2196F3" }, { marginRight: 10 }]}>
                                     {/* <View style={globalStyles.transIcon2}> */}
@@ -88,7 +98,7 @@ const Invite = ({ navigation }) => {
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={[globalStyles.contactusBox, globalStyles.transBox, { paddingHorizontal: 5 }]}
-                            onPress={onShare} >
+                            onPress={() => onShare('other')} >
                             <View style={[globalStyles.displayRowbetween, { justifyContent: 'flex-start' }]}>
                                 <View style={[globalStyles.transIcon, globalStyles.displaycolumn, { backgroundColor: "#F44236" }, { marginRight: 10 }]}>
                                     {/* <View style={globalStyles.transIcon2}> */}

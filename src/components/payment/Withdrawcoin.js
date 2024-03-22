@@ -104,7 +104,7 @@ const Withdrawcoin = ({ navigation }) => {
                                 <Text style={{ color: 'red', marginBottom: error ? 5 : 0, paddingLeft: 5 }}>{error ? "Coin must be i multiple of 50" : ""} </Text>
 
                                 <View style={[globalStyles.displayRowbetween, { marginBottom: 10 }]}>
-                                    {[50, 100, 200, 500].map((value) => (
+                                    {[100, 200, 500, 1000].map((value) => (
                                         <Button
                                             buttonColor='#E2E2E2' textColor='#333333' labelStyle={globalStyles.graySmallButton} style={{ marginRight: 4 }} mode="contained"
                                             key={value}

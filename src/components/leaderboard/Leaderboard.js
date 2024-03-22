@@ -25,7 +25,7 @@ const Leaderboard = ({ navigation }) => {
         setLoading(true);
         const { fromDate, toDate } = getDate(activeButton);
         const data = {
-            limit: 2,
+            limit: 50,
             from_date: fromDate,
             to_date: toDate,
         }
@@ -83,25 +83,25 @@ const Leaderboard = ({ navigation }) => {
                                 {leaderbaordData && leaderbaordData.map((data, i) => (
                                     <View style={[globalStyles.transBox, globalStyles.displayRowbetween,]} key={i}>
                                         <View style={[globalStyles.displayRowbetween, { gap: 8 }, { alignItems: 'center' }]}>
-                                            <Text style={[globalStyles.rankText, { minWidth: 35 }]} >#{i < 10 ? `0${i + 1}` : i + 1}</Text>
+                                            <Text style={[globalStyles.rankText, { minWidth: 35 }]} >#{i < 9 ? `0${i + 1}` : i + 1}</Text>
                                             {data.profile ?
 
                                                 <Image
                                                     source={{ uri: `${baseaddress}/upload/${data.profile}` }}
                                                     style={{
-                                                        width: 50,
-                                                        height: 50,
+                                                        width: 45,
+                                                        height: 45,
                                                         objectFit: 'cover',
-                                                        borderRadius: 50,
+                                                        borderRadius: 45,
                                                     }}
                                                 />
                                                 :
-                                                <FontAwesome name="user-tie" color="#000" size={30} style={{ marginHorizontal: 12, }} />
+                                                <FontAwesome name="user-tie" color="#000" size={35} style={{ marginLeft: 5, marginRight: 10 }} />
                                             }
                                             <Text style={globalStyles.rankText} numberOfLines={1} ellipsizeMode="tail">{data.mobile}</Text>
                                         </View>
                                         <View style={{ justifyContent: 'center' }}>
-                                            <Text style={globalStyles.rankCount} >{data.totalWinCoin}</Text>
+                                            <Text style={[globalStyles.rankCount]} >{String(data.totalWinCoin).substring(0, 4)}</Text>
                                         </View>
                                     </View>
                                 ))}

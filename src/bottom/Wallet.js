@@ -168,7 +168,7 @@ const Wallet = ({ navigation, icon }) => {
               <>
                 {mypayment && mypayment.map((data, i) => (
                   <View style={[globalStyles.transBox, globalStyles.displayRowbetween]} key={i}>
-                    <View style={[globalStyles.displayRowbetween]}>
+                    <View style={[globalStyles.displayRowbetween, { alignItems: 'center' }]}>
                       <View style={[globalStyles.transIcon, {
                         backgroundColor: data.payment_status === "Pending" ? theme.colors.yellowLightColor : data.payment_status === "Cancel" ? theme.colors.redLightColor : theme.colors.greenLightColor
                       }]}>
@@ -178,16 +178,16 @@ const Wallet = ({ navigation, icon }) => {
                         </View>
                       </View>
                       <View>
-                        <Text style={[{ color: theme.colors.primary }, { fontSize: globalStyles.fonts.fontSize13 }, { fontWeight: '700' }]} >On {data.type}</Text>
-                        {data.type === "Deposit" ? (
+                        <Text style={[{ color: theme.colors.primary }, { fontSize: globalStyles.fonts.fontSize13 }, { fontWeight: '700' }, { marginBottom: 5 }]} >On {data.type}</Text>
+                        {/* {data.type === "Deposit" ? (
                           <Text style={[{ color: theme.colors.primary }, { fontSize: globalStyles.fonts.fontSize10 }, { fontWeight: '700' }, { lineHeight: 12 }]} >Discount = 10 Coins</Text>
-                        ) : ""}
+                        ) : ""} */}
                         <Text style={[{ color: '#757575' }, { fontSize: globalStyles.fonts.fontSize10 }]} >{calculateTimeRemaining(data.createdAt)}</Text>
                       </View>
                     </View>
                     <View style={{ justifyContent: 'center' }}>
                       <Text style={[{ color: data.type === "Deposit" ? theme.colors.greenColor : theme.colors.red }, { fontSize: globalStyles.fonts.fontSize16 }, { textAlign: 'right' }]} >{data.type === "Deposit" ? "+" : "- "}{data.amount}</Text>
-                      <Text style={[{ color: '#757575' }, { fontSize: globalStyles.fonts.fontSize10 }]} >Game Coin = 50.00</Text>
+                      {/* <Text style={[{ color: '#757575' }, { fontSize: globalStyles.fonts.fontSize10 }]} >Game Coin = 50.00</Text> */}
                     </View>
                   </View>
                 ))}
